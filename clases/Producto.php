@@ -10,7 +10,7 @@ class Producto {
     private $fechaRegistro;
     private $activo;
 
-    public function __construct($id, $nombre, $descripcion, $precio, $categoria, $proveedor, $fechaRegistro, $activo) {
+    public function __construct($id, $nombre, $descripcion, $precio, $categoria, $proveedor, $activo) {
         $this->id = $id;
         $this->nombre = $nombre;
         $this->descripcion = $descripcion;
@@ -72,10 +72,6 @@ class Producto {
 
     public function setProveedor($proveedor) { 
         $this->proveedor = $proveedor; 
-    }
-
-    public function setFechaRegistro() { 
-        return $this->fechaRegistro; 
     }
 
     public function setActivo($activo) { 
