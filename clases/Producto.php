@@ -53,4 +53,46 @@ class Producto {
         return $this->activo; 
     }
 
+
+    public function setNombre($nombre) { 
+        $this->nombre = $nombre; 
+    }
+
+    public function setDescripcion($descripcion) { 
+        $this->descripcion = $descripcion; 
+    }
+
+    public function setPrecio($precio) { 
+        $this->precio = $precio; 
+    }
+
+    public function setCategoria($categoria) { 
+        $this->categoria = $categoria; 
+    }
+
+    public function setProveedor($proveedor) { 
+        $this->proveedor = $proveedor; 
+    }
+
+    public function getFechaRegistro() { 
+        return $this->fechaRegistro; 
+    }
+
+    public function setActivo($activo) { 
+        $this->activo = $activo; 
+    }
+
+    public function toArray() {
+        return [
+            'id' => $this->id,
+            'nombre' => $this->nombre,
+            'descripcion' => $this->descripcion,
+            'precio' => $this->precio,
+            'categoria' => $this->categoria,
+            'proveedor' => $this->proveedor,
+            'fechaRegistro' => $this->fechaRegistro,
+            'activo' => $this->activo,
+        ];
+    }
 }
+?>
