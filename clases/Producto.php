@@ -74,7 +74,7 @@ class Producto {
         $this->proveedor = $proveedor; 
     }
 
-    public function getFechaRegistro() { 
+    public function setFechaRegistro() { 
         return $this->fechaRegistro; 
     }
 
