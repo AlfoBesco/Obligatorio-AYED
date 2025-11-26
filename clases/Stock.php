@@ -8,7 +8,6 @@ class Stock {
     private $fechaUltimaActualizacion;
     private $stockMinimo;
 
-
     public function __construct($id, $producto, $cantidad, $ubicacion, $fechaUltimaActualizacion, $stockMinimo) {
         $this->id = $id;
         $this->producto = $producto;
@@ -42,7 +41,6 @@ class Stock {
         return $this->stockMinimo; 
     }
 
-
     public function setProducto($producto) { 
         $this->producto = $producto; 
     }
@@ -62,8 +60,6 @@ class Stock {
     public function setStockMinimo($stockMinimo) { 
         $this->stockMinimo = $stockMinimo; 
     }
-
-    
 
     public function toArray() {
         return [
