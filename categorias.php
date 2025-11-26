@@ -15,49 +15,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['accion']) && $_POST['accion'] === 'crear') {
         $resultado = CategoriaController::crear(
             trim($_POST['nombre']),
-            trim($_POST['apellido']),
-            trim($_POST['email']),
-            trim($_POST['telefono']),
-            trim($_POST['direccion'])
+            trim($_POST['descripcion']),
+            trim($_POST['categoriaPadre']),
+            trim($_POST['subCategorias']),
+            trim($_POST['nivel'])
         );
-        
+    
         $mensaje = $resultado['mensaje'];
         $tipoMensaje = $resultado['tipo'];
     }
     
-    // ACTUALIZAR CLIENTE
+    // ACTUALIZAR CATEGORÍA
     if (isset($_POST['accion']) && $_POST['accion'] === 'actualizar') {
-        $resultado = ClienteController::actualizar(
+        $resultado = CategoriaController::actualizar(
             intval($_POST['id']),
             trim($_POST['nombre']),
-            trim($_POST['apellido']),
-            trim($_POST['email']),
-            trim($_POST['telefono']),
-            trim($_POST['direccion'])
+            trim($_POST['descripcion']),
+            trim($_POST['categoriaPadre']),
+            trim($_POST['subCategorias']),
+            trim($_POST['nivel'])
         );
         
         $mensaje = $resultado['mensaje'];
         $tipoMensaje = $resultado['tipo'];
     }
     
-    // ELIMINAR CLIENTE
+    // ELIMINAR CATEGORÍA
     if (isset($_POST['accion']) && $_POST['accion'] === 'eliminar') {
-        $resultado = ClienteController::eliminar(intval($_POST['id']));
+        $resultado = CategoriaController::eliminar(intval($_POST['id']));
         
         $mensaje = $resultado['mensaje'];
         $tipoMensaje = $resultado['tipo'];
     }
 }
 
-// ========== OBTENER CLIENTE PARA EDITAR ==========
-$clienteEditar = null;
+// ========== OBTENER CATEGORÍA PARA EDITAR ==========
+$categoriaEditar = null;
 if (isset($_GET['editar'])) {
-    $clienteEditar = ClienteController::buscarPorId(intval($_GET['editar']));
+    $categoriaEditar = CategoriaController::buscarPorId(intval($_GET['editar']));
 }
 
 // ========== INCLUIR VISTAS ==========
-$titulo = "Gestión de Clientes";
-$paginaActual = "clientes";
+$titulo = "Gestión de Categorías";
+$paginaActual = "categorias";
 include 'includes/header.php';
 
 // Mostrar mensajes
@@ -68,10 +68,10 @@ if (!empty($mensaje)): ?>
 <?php endif;
 
 // Mostrar formulario
-include 'vistas/clientes_formulario.php';
+include 'vistas/formulario_categorias.php';
 
 // Mostrar lista
-include 'vistas/clientes_listar.php';
+include 'vistas/listar_categorias.php';
 
 // Footer
 include 'includes/footer.php';
