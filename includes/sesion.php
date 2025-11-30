@@ -3,15 +3,15 @@ require_once __DIR__ . '/../clases/Categoria.php';
 
 session_start();
 
-if (!isset($_SESSION['categoriaS'])) {
-    $_SESSION['categoriaS'] = [];
-    $_SESSION['ultimo_id'] = 0;
+if (!isset($_SESSION['categorias'])) {
+    $_SESSION['categorias'] = [];
+    $_SESSION['ultimo_idCat'] = 0;
         
     // Cargo datos de ejemplo
     $categoria1 = new Categoria(1, "Celulares", "abcde", "Tecnología", "Samsung", "1");
     
-    $_SESSION['categoriaS'][1] = $categoria1;
-    $_SESSION['ultimo_id'] = 1;
+    $_SESSION['categorias'][1] = $categoria1;
+    $_SESSION['ultimo_idCat'] = 1;
 }
 
 function obtenerCategorias() {

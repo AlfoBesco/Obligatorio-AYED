@@ -10,7 +10,7 @@ class Producto {
     private $fechaRegistro;
     private $activo;
 
-    public function __construct($id, $nombre, $descripcion, $precio, $categoria, $proveedor, $activo) {
+    public function __construct($id, $nombre, $descripcion, $precio, $categoria, $proveedor, $activo = true) {
         $this->id = $id;
         $this->nombre = $nombre;
         $this->descripcion = $descripcion;
@@ -24,56 +24,43 @@ class Producto {
     public function getId() { 
         return $this->id; 
     }
-
     public function getNombre() { 
         return $this->nombre; 
     }
-
     public function getDescripcion() { 
         return $this->descripcion; 
     }
-
     public function getPrecio() { 
         return $this->precio; 
     }
-
     public function getCategoria() { 
         return $this->categoria; 
     }
-
     public function getProveedor() { 
         return $this->proveedor; 
     }
-
     public function getFechaRegistro() { 
         return $this->fechaRegistro; 
     }
-
     public function getActivo() { 
         return $this->activo; 
     }
 
-
     public function setNombre($nombre) { 
         $this->nombre = $nombre; 
     }
-
     public function setDescripcion($descripcion) { 
         $this->descripcion = $descripcion; 
     }
-
     public function setPrecio($precio) { 
         $this->precio = $precio; 
     }
-
     public function setCategoria($categoria) { 
         $this->categoria = $categoria; 
     }
-
     public function setProveedor($proveedor) { 
         $this->proveedor = $proveedor; 
     }
-
     public function setActivo($activo) { 
         $this->activo = $activo; 
     }

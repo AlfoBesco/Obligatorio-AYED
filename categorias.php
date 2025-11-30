@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     // CREAR CATEGORIA
     if (isset($_POST['accion']) && $_POST['accion'] === 'crear') {
-        $resultado = CategorisController::crear(
+        $resultado = CategoriaController::crearCat(
             trim($_POST['nombre']),
             trim($_POST['descripcion']),
             trim($_POST['categoriaPadre']),
@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     // ACTUALIZAR CATEGORIA
     if (isset($_POST['accion']) && $_POST['accion'] === 'actualizar') {
-        $resultado = CategoriaController::actualizar(
+        $resultado = CategoriaController::actualizarCat(
             intval($_POST['id']),
             trim($_POST['nombre']),
             trim($_POST['descripcion']),
@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     // ELIMINAR CATEGORIA
     if (isset($_POST['accion']) && $_POST['accion'] === 'eliminar') {
-        $resultado = CategoriaController::eliminar(intval($_POST['id']));
+        $resultado = CategoriaController::eliminarCat(intval($_POST['id']));
         
         $mensaje = $resultado['mensaje'];
         $tipoMensaje = $resultado['tipo'];
@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // ========== OBTENER CATEGORIA PARA EDITAR ==========
 $categoriaEditar = null;
 if (isset($_GET['editar'])) {
-    $categoriaEditar = CategoriaController::buscarPorId(intval($_GET['editar']));
+    $categoriaEditar = CategoriaController::buscarCatPorId(intval($_GET['editar']));
 }
 
 // ========== INCLUIR VISTAS ==========
