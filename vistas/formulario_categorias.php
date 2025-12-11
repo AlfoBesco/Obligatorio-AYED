@@ -1,14 +1,15 @@
 <?php
-$clienteEditar = isset($clienteEditar) ? $clienteEditar : null;
+// Este archivo muestra el formulario de crear/editar categorias
+$categoriaEditar = isset($categoriaEditar) ? $categoriaEditar : null;
 ?>
 
 <div class="form-section">
-    <h2><?php echo $clienteEditar ? 'Editar Cliente' : 'Agregar Nuevo Cliente'; ?></h2>
+    <h2><?php echo $categoriaEditar ? 'Editar Categoria' : 'Agregar Nueva Categoria'; ?></h2>
     
     <form method="POST" action="index.php">
-        <input type="hidden" name="accion" value="<?php echo $clienteEditar ? 'actualizar' : 'crear'; ?>">
-        <?php if ($clienteEditar): ?>
-            <input type="hidden" name="id" value="<?php echo $clienteEditar->getId(); ?>">
+        <input type="hidden" name="accion" value="<?php echo $categoriaEditar ? 'actualizar' : 'crear'; ?>">
+        <?php if ($categoriaEditar): ?>
+            <input type="hidden" name="id" value="<?php echo $categoriaEditar->getId(); ?>">
         <?php endif; ?>
         
         <div class="form-row">
