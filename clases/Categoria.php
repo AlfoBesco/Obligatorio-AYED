@@ -158,6 +158,28 @@ class Categoria {
         return empty($this->subCategorias);
     }
 
+    public function esRaiz() {
+        return $this->categoriaPadre === null;
+    }
+
+    public function puedeSerEliminada() {
+        global $productos;
+        
+        // Verificar que no tenga subcategorías
+        if (!empty($this->subcategorias)) {
+            return false;
+        }
+        
+        // Verificar que no tenga productos asociados
+        foreach ($productos as $prod) {
+            if ($prod->getCategoria()->getId() == $this->id) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+
     public function getRutaCompleta($separador = " > ") {
         $ruta = [];
         $actual = $this;

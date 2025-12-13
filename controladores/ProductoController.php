@@ -128,12 +128,15 @@ class ProductoController {
             ];
         }
         
-        $nombre = $_SESSION['productos'][$id]->getNombre();
+        $producto = $_SESSION['productos'][$id];
+        $categoria = $producto->getCategoria();
+
+        $categoria->eliminarProducto($id);
+
         unset($_SESSION['productos'][$id]);
-        
         return [
             'exito' => true,
-            'mensaje' => 'Producto eliminado: ' . $nombre,
+            'mensaje' => 'Producto eliminado: ' . $producto,
             'tipo' => 'warning'
         ];
     }
