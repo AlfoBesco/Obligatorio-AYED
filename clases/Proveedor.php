@@ -1,6 +1,6 @@
 <?php
 
-class Producto {
+class Proveedor {
     private $id;
     private $nombreEmpresa;
     private $contacto;
@@ -64,6 +64,30 @@ class Producto {
     public function setDireccion($direccion){
         $this->direccion = $direccion;
     }
+
+
+
+    public function getProductos() {
+    if (!isset($_SESSION['productos'])) {
+        return [];
+    }
+
+    $resultado = [];
+
+        foreach ($_SESSION['productos'] as $producto) {
+            if ($producto->getProveedor()->getId() === $this->id) {
+                $resultado[] = $producto;
+            }
+        }
+        return $resultado;
+    }
+
+    public function contarProductos() {
+        return count($this->getProductos());
+    }
+
+
+
 
     public function toArray() {
         return [

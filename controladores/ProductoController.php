@@ -188,9 +188,12 @@ class ProductoController {
         return count($_SESSION['productos']);
     }
 
-    public static function aplicarDescuento($id, $porcentaje) {
+    public function aplicarDescuento(){
 
-        $producto = self::buscarProdPorId($id);
+        $id = $_POST['id'];
+        $porcentaje = $_POST['porcentaje'];
+
+        $producto = $this->buscarProdPorId($id);
 
         if (!$producto) {
             return [
@@ -209,6 +212,7 @@ class ProductoController {
         }
 
         $nuevoPrecio = $producto->aplicarDescuento($porcentaje);
+        $producto->setPrecio($nuevoPrecio);
 
         return [
             'exito' => true,

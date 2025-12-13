@@ -65,6 +65,29 @@ class Producto {
         $this->activo = $activo; 
     }
 
+
+    public function cambiarCategoria($nuevaCategoria) {
+    if ($nuevaCategoria == null) {
+        throw new Exception("La nueva categoría no puede ser nula.");
+    }
+    $this->categoria = $nuevaCategoria;
+    }
+
+    public function aplicarDescuento($porcentaje) {
+        if ($porcentaje < 0 || $porcentaje > 100) {
+            throw new Exception("El porcentaje de descuento debe estar entre 0 y 100.");
+        }
+        $descuento = ($this->precio * $porcentaje) / 100;
+        return $this->precio - $descuento;
+    }
+
+    public function toString() {
+        return "Producto #{$this->id} - {$this->nombre} | $".$this->precio .
+           " | Categoría: {$this->categoria->getNombre()} | Proveedor: {$this->proveedor->getNombreEmpresa()}";
+    }
+
+
+
     public function toArray() {
         return [
             'id' => $this->id,
