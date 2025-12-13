@@ -1,10 +1,9 @@
 <!-- FOOTER INFORMATIVO -->
             <div class="info-box">
-                <h3>Ofertas de la semana!</h3>
+                <h3>Categorias destacadas</h3>
                 <ul>
-                    <li><strong>Tecnología:</strong> Algo barato</li>
-                    <li><strong>Video:</strong> Pero rebarato</li>
-                    <li><strong>Audio:</strong> Super baratex</li>
+                    <li><strong>Tecnología</strong></li>
+                    <li><strong>Papelería</strong></li>
                 </ul>
             </div>
         </div>

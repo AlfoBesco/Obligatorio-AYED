@@ -9,12 +9,12 @@ $tipoMensaje = "";
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     if (isset($_POST['accion']) && $_POST['accion'] === 'crear') {
-        $resultado = ClienteController::crear(
+        $resultado = CategoriaController::crearCat(
             trim($_POST['nombre']),
-            trim($_POST['apellido']),
-            trim($_POST['email']),
-            trim($_POST['telefono']),
-            trim($_POST['direccion'])
+            trim($_POST['descripcion']),
+            trim($_POST['categoriaPadre']),
+            trim($_POST['subCategorias']),
+            trim($_POST['nivel'])
         );
         
         $mensaje = $resultado['mensaje'];
