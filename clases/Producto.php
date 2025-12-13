@@ -10,15 +10,17 @@ class Producto {
     private $fechaRegistro;
     private $activo;
 
-    public function __construct($id, $nombre, $descripcion, $precio, $categoria, $proveedor, $activo = true) {
+    public function __construct($id, $nombre, $descripcion, $precio, Categoria $categoria, Proveedor $proveedor, $activo = true) {
         $this->id = $id;
         $this->nombre = $nombre;
         $this->descripcion = $descripcion;
         $this->precio = $precio;
         $this->categoria = $categoria;
         $this->proveedor = $proveedor;
-        $this->fechaRegistro = date('Y-m-d H:i:s');
+        $this->fechaRegistro = date('Y-m-d');
         $this->activo = $activo;
+
+        $categoria->agregarProducto($this);
     }
 
     public function getId() { 
@@ -42,7 +44,7 @@ class Producto {
     public function getFechaRegistro() { 
         return $this->fechaRegistro; 
     }
-    public function getActivo() { 
+    public function isActivo() { 
         return $this->activo; 
     }
 
@@ -66,11 +68,14 @@ class Producto {
     }
 
 
-    public function cambiarCategoria($nuevaCategoria) {
-    if ($nuevaCategoria == null) {
-        throw new Exception("La nueva categoría no puede ser nula.");
-    }
-    $this->categoria = $nuevaCategoria;
+
+    public function cambiarCategoria(Categoria $nuevaCategoria) {
+        $this->categoria->eliminarProducto($this->id);
+            if ($nuevaCategoria == null) {
+            throw new Exception("La nueva categoría no puede ser nula.");
+            }
+        $this->categoria = $nuevaCategoria;
+        $nuevaCategoria->agregarProducto($this);
     }
 
     public function aplicarDescuento($porcentaje) {
@@ -82,7 +87,7 @@ class Producto {
     }
 
     public function toString() {
-        return "Producto #{$this->id} - {$this->nombre} | $".$this->precio .
+        return "Producto: {$this->id} - {$this->nombre} | $".$this->precio .
            " | Categoría: {$this->categoria->getNombre()} | Proveedor: {$this->proveedor->getNombreEmpresa()}";
     }
 
