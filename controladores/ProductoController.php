@@ -42,7 +42,6 @@ class ProductoController {
             ];
         }
 
-
         $_SESSION['ultimo_idProd']++;
         $nuevoIdProd = $_SESSION['ultimo_idProd'];
         $nuevoProducto = new Producto($nuevoIdProd, $nombre, $descripcion, $precio, $categoria, $proveedor, $fechaRegistro, $activo);
