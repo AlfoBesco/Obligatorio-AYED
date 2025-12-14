@@ -31,8 +31,6 @@ $categoriaEditar = isset($categoriaEditar) ? $categoriaEditar : null;
                        required>
             </div>
         
-        
-        
             <div class="form-group">
                 <label for="categoriaPadre">Categoria Padre</label>
                 <input type="text" 

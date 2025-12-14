@@ -10,8 +10,6 @@
         </div>
     </div>
     
-    
-    
     <div class="tech-info">
         <h3>Contacto</h3>
         <div class="tech-badges">

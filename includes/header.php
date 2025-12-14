@@ -39,21 +39,15 @@ $paginaActual = isset($paginaActual) ? $paginaActual : 'inicio';
                         Categorías
                     </a>
                 </li>
-                <li class="nav-item <?php echo $paginaActual === 'proveedores' ? 'active' : ''; ?>">
-                    <a href="proveedores.php">
-                        <span class="nav-icon">📦</span>
-                        Productos
-                    </a>
-                </li>
                 <li class="nav-item <?php echo $paginaActual === 'productos' ? 'active' : ''; ?>">
                     <a href="productos.php">
                         <span class="nav-icon">📦</span>
                         Productos
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="#" class="disabled">
-                        <span class="nav-icon">🏢</span>
+                <li class="nav-item <?php echo $paginaActual === 'proveedores' ? 'active' : ''; ?>">
+                    <a href="proveedores.php">
+                        <span class="nav-icon">📦</span>
                         Proveedores
                     </a>
                 </li>
