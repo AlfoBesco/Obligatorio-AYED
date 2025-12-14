@@ -128,12 +128,15 @@ class ProductoController {
             ];
         }
         
-        $nombre = $_SESSION['productos'][$id]->getNombre();
+        $producto = $_SESSION['productos'][$id];
+        $categoria = $producto->getCategoria();
+
+        $categoria->eliminarProducto($id);
+
         unset($_SESSION['productos'][$id]);
-        
         return [
             'exito' => true,
-            'mensaje' => 'Producto eliminado: ' . $nombre,
+            'mensaje' => 'Producto eliminado: ' . $producto,
             'tipo' => 'warning'
         ];
     }
@@ -188,9 +191,12 @@ class ProductoController {
         return count($_SESSION['productos']);
     }
 
-    public static function aplicarDescuento($id, $porcentaje) {
+    public function aplicarDescuento(){
 
-        $producto = self::buscarProdPorId($id);
+        $id = $_POST['id'];
+        $porcentaje = $_POST['porcentaje'];
+
+        $producto = $this->buscarProdPorId($id);
 
         if (!$producto) {
             return [
@@ -209,6 +215,7 @@ class ProductoController {
         }
 
         $nuevoPrecio = $producto->aplicarDescuento($porcentaje);
+        $producto->setPrecio($nuevoPrecio);
 
         return [
             'exito' => true,

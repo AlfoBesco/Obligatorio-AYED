@@ -1,6 +1,6 @@
 <?php
 
-class Producto {
+class Pedido {
     private $id;
     private $fechaPedido;
     private $proveedor;
@@ -64,6 +64,12 @@ class Producto {
     public function setTotal($total){
         $this->total = $total;
     }
+
+
+    public function cambiarEstado($estado) {
+        $this->estado = $estado;
+    }
+
 
     public function toArray() {
         return [

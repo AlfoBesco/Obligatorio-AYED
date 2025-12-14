@@ -1,14 +1,15 @@
 <?php
-$clienteEditar = isset($clienteEditar) ? $clienteEditar : null;
+// Este archivo muestra el formulario de crear/editar categorias
+$categoriaEditar = isset($categoriaEditar) ? $categoriaEditar : null;
 ?>
 
 <div class="form-section">
-    <h2><?php echo $clienteEditar ? 'Editar Cliente' : 'Agregar Nuevo Cliente'; ?></h2>
+    <h2><?php echo $categoriaEditar ? 'Editar Categoria' : 'Agregar Nueva Categoria'; ?></h2>
     
     <form method="POST" action="index.php">
-        <input type="hidden" name="accion" value="<?php echo $clienteEditar ? 'actualizar' : 'crear'; ?>">
-        <?php if ($clienteEditar): ?>
-            <input type="hidden" name="id" value="<?php echo $clienteEditar->getId(); ?>">
+        <input type="hidden" name="accion" value="<?php echo $categoriaEditar ? 'actualizar' : 'crear'; ?>">
+        <?php if ($categoriaEditar): ?>
+            <input type="hidden" name="id" value="<?php echo $categoriaEditar->getId(); ?>">
         <?php endif; ?>
         
         <div class="form-row">
@@ -17,51 +18,52 @@ $clienteEditar = isset($clienteEditar) ? $clienteEditar : null;
                 <input type="text" 
                        id="nombre" 
                        name="nombre" 
-                       value="<?php echo $clienteEditar ? htmlspecialchars($clienteEditar->getNombre()) : ''; ?>" 
+                       value="<?php echo $categoriaEditar ? htmlspecialchars($categoriaEditar->getNombre()) : ''; ?>" 
                        required>
             </div>
             
             <div class="form-group">
-                <label for="apellido">Apellido *</label>
+                <label for="descripcion">Descripcion *</label>
                 <input type="text" 
-                       id="apellido" 
-                       name="apellido" 
-                       value="<?php echo $clienteEditar ? htmlspecialchars($clienteEditar->getApellido()) : ''; ?>" 
+                       id="descripcion" 
+                       name="descripcion" 
+                       value="<?php echo $categoriaEditar ? htmlspecialchars($categoriaEditar->getDescripcion()) : ''; ?>" 
                        required>
             </div>
-        </div>
         
-        <div class="form-row">
+        
+        
             <div class="form-group">
-                <label for="email">Email *</label>
-                <input type="email" 
-                       id="email" 
-                       name="email" 
-                       value="<?php echo $clienteEditar ? htmlspecialchars($clienteEditar->getEmail()) : ''; ?>" 
-                       required>
+                <label for="categoriaPadre">Categoria Padre</label>
+                <input type="text" 
+                       id="categoriaPadre" 
+                       name="categoriaPadre" 
+                       value="<?php echo $categoriaEditar ? htmlspecialchars($categoriaEditar->getCategoriaPadre()) : ''; ?>" 
+                       >
             </div>
-            
-            <div class="form-group">
-                <label for="telefono">Teléfono</label>
-                <input type="tel" 
-                       id="telefono" 
-                       name="telefono" 
-                       value="<?php echo $clienteEditar ? htmlspecialchars($clienteEditar->getTelefono()) : ''; ?>">
-            </div>
-        </div>
         
         <div class="form-group">
-            <label for="direccion">Dirección</label>
-            <textarea id="direccion" 
-                      name="direccion"><?php echo $clienteEditar ? htmlspecialchars($clienteEditar->getDireccion()) : ''; ?></textarea>
+            <label for="subCategorias">Sub-Categorias</label>
+            <textarea id="subCategorias" 
+                      name="subCategorias"><?php echo $categoriaEditar ? htmlspecialchars($categoriaEditar->getSubCategorias()) : ''; ?></textarea>
         </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="nivel">Nivel *</label>
+                <input type="text" 
+                       id="nivel" 
+                       name="nivel" 
+                       value="<?php echo $categoriaEditar ? htmlspecialchars($categoriaEditar->getNivel()) : ''; ?>" 
+                       required>
+            </div>
         
         <div style="margin-top: 20px;">
             <button type="submit" class="btn btn-primary">
-                <?php echo $clienteEditar ? 'Actualizar Cliente' : 'Crear Cliente'; ?>
+                <?php echo $categoriaEditar ? 'Actualizar Categoria' : 'Crear Categoria'; ?>
             </button>
             
-            <?php if ($clienteEditar): ?>
+            <?php if ($categoriaEditar): ?>
                 <a href="index.php" class="btn btn-secondary">Cancelar</a>
             <?php endif; ?>
         </div>

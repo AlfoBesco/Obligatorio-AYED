@@ -61,6 +61,41 @@ class Stock {
         $this->stockMinimo = $stockMinimo; 
     }
 
+    
+
+    public function agregarStock($cantidad) {
+        if ($cantidad <= 0) {
+            return false;
+        }
+
+        $this->cantidad += $cantidad;
+        $this->fechaUltimaActualizacion = date('Y-m-d H:i:s');
+        return true;
+    }
+
+    public function descontarStock($cantidad) {
+        if ($cantidad <= 0) {
+            return false;
+        }
+        if ($cantidad > $this->cantidad) {
+            return false; // No se puede descontar más de lo disponible
+        }
+
+        $this->cantidad -= $cantidad;
+        $this->fechaUltimaActualizacion = date('Y-m-d H:i:s');
+        return true;
+    }
+
+    public function verificarStockBajo() {
+        return $this->cantidad <= $this->stockMinimo;
+        }
+
+    public function calcularValorTotal() {
+        return $this->cantidad * $this->producto->getPrecio();
+    }
+
+
+
     public function toArray() {
         return [
             'id' => $this->id,

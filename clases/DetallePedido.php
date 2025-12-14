@@ -16,23 +16,23 @@ class DetallePedido {
     }
 
     public function getId() {
-        return $this->$id;
+        return $this->id;
     }
 
-    public function getPedido() {
-        return $this->$pedido;
+    public function getPedido(){
+        return $this->pedido;
     }
 
     public function getProducto() {
-        return $this->$producto;
+        return $this->producto;
     }
 
     public function getCantidad() {
-        return $this->$cantidad;
+        return $this->cantidad;
     }
 
     public function getPrecioUnitario() {
-        return $this->$precioUnitario;
+        return $this->precioUnitario;
     }
 
     public function setPedido($pedido) {
@@ -60,7 +60,6 @@ class DetallePedido {
             'precioUnitario' => $this->precioUnitario
         ];
     }
-
 }
 
 ?>

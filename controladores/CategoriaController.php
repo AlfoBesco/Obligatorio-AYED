@@ -107,55 +107,41 @@ class CategoriaController {
     }
 
     public static function eliminarCat($id) {
-        if (!isset($_SESSION['categorias'][$id])) {
-            return [
-                'exito' => false,
-                'mensaje' => 'Categoria no encontrada.',
-                'tipo' => 'danger'
-            ];
-        }
+        foreach ($_SESSION['categoriaRaiz'] as $i => $categoriaRaiz) {
+            if ($categoriaRaiz->getId() == $id) {
+
+                if (!$categoriaRaiz->puedeEliminarse()) {
+                    return [
+                    'exito' => false,
+                    'mensaje' => 'No se puede eliminar: la categoría tiene subcategorías.',
+                    'tipo' => 'warning'
+                    ];
+                }
+                unset($_SESSION['categoriaRaiz'][$i]);
+                $_SESSION['categoriaRaiz'] = array_values($_SESSION['categoriaRaiz']);
+                return true;
+            }
         
-        $categoria = $_SESSION['categorias'][$id];
+            $categoria = $categoriaRaiz->buscarPorId($id);
 
-        // Validar que no tenga subcategorías
-        if (!$categoria->esHoja()) {
-            return [
-                'exito' => false,
-                'mensaje' => 'No se puede eliminar: la categoría tiene subcategorías.',
-                'tipo' => 'warning'
-            ];
-        }
+            // Validar que no tenga subcategorías o productos
+            if ($categoria !== null) {
+                if(!$categoria->puedeSerEliminada()) {
+                    return [
+                        'exito' => false,
+                        'mensaje' => 'No se puede eliminar, la categoría tiene subcategorías o productos.',
+                        'tipo' => 'warning'
+                    ];
+                }
 
-        // Verificar productos asociados a esta categoría
-        if (isset($_SESSION['productos']) && is_array($_SESSION['productos'])) {
-            foreach ($_SESSION['productos'] as $p) {
-                $catObj = null;
-                if (is_object($p) && method_exists($p,'getCategoria')) $catObj = $p->getCategoria();
-                elseif (is_array($p) && isset($p['categoria'])) $catObj = $_SESSION['categorias'][$p['categoria']] ?? null;
-                if ($catObj) {
-                    if (is_object($catObj) && method_exists($catObj,'getId') && $catObj->getId() == $id) {
-                        return ['exito'=>false,'mensaje'=>'No se puede eliminar: existen productos asociados.','tipo'=>'warning'];
-                    } elseif ((is_int($catObj) || is_string($catObj)) && ((int)$catObj) == $id) {
-                        return ['exito'=>false,'mensaje'=>'No se puede eliminar: existen productos asociados.','tipo'=>'warning'];
-                    }
+                $padre = $categoria->getCategoriaPadre();
+                if ($padre !== null) {
+                    $padre->eliminarSubcategoria($id);
+                    return true;
                 }
             }
         }
-
-        // quitar referencia del padre si existe
-        $padre = $categoria->getCategoriaPadre();
-        if ($padre && is_object($padre)) {
-            $padre->eliminarSubcategoria($id);
-        }
-
-        $nombre = $_SESSION['categorias'][$id]->getNombre();
-        unset($_SESSION['categorias'][$id]);
-        
-        return [
-            'exito' => true,
-            'mensaje' => 'Categoria eliminada: ' . $nombre,
-            'tipo' => 'warning'
-        ];
+        return "categoria no encontrada";
     }
 
     public static function listarTodasCat() {

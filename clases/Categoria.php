@@ -7,14 +7,16 @@ class Categoria {
     private $categoriaPadre;
     private $subCategorias;
     private $nivel;
+
+    private $productos = [];
     
-    public function __construct($id, $nombre, $descripcion, $categoriaPadre = null, $subCategorias = [], $nivel) {
+    public function __construct($id, $nombre, $descripcion = "") {
         $this->id = $id;
         $this->nombre = $nombre;
         $this->descripcion = $descripcion;
-        $this->categoriaPadre = $categoriaPadre;
-        $this->subCategorias = $subCategorias;
-        $this->nivel = $nivel;
+        $this->categoriaPadre = null;
+        $this->subCategorias = [];
+        $this->nivel = 0;
     }
     
     public function getId() { 
@@ -35,6 +37,10 @@ class Categoria {
     public function getNivel() { 
         return $this->nivel; 
     }
+
+    public function getProductos() {
+        return $this->productos;
+    }
     
     public function setNombre($nombre) { 
         $this->nombre = $nombre; 
@@ -45,145 +51,175 @@ class Categoria {
     public function setCategoriaPadre($categoriaPadre) { 
         $this->categoriaPadre = $categoriaPadre; 
     }
-    public function setSubCategorias($subCategorias) { 
-        $this->subCategorias = $subCategorias; 
-    }
     public function setNivel($nivel) { 
         $this->nivel = $nivel; 
+        foreach ($this->subCategorias as $subCat) {
+            $subCat->setNivel($nivel + 1);
+        }
     }
       
 
     public function agregarSubcategoria($categoria) {
-        if ($this->subCategorias === null) $this->subCategorias = [];
         $this->subCategorias[] = $categoria;
-        // asegurar referencia padre/nivel si es objeto
-        if (is_object($categoria) && method_exists($categoria, 'setCategoriaPadre')) {
-            $categoria->setCategoriaPadre($this);
-            if (method_exists($categoria,'setNivel')) $categoria->setNivel($this->nivel + 1);
-        }
+        $categoria->setCategoriaPadre($this);
+        $categoria->setNivel($this->nivel + 1);
     }
 
     public function eliminarSubcategoria($id) {
-        if (empty($this->subCategorias)) return false;
-        foreach ($this->subCategorias as $idx => $sub) {
-            if (is_object($sub) && method_exists($sub,'getId') && $sub->getId() == $id) {
-                array_splice($this->subCategorias, $idx, 1);
+        foreach ($this->subCategorias as $key => $sub) {
+            if ($sub->getId() == $id) {
+                unset($this->subcategorias[$key]);
+                // Re-indexar el array
+                $this->subcategorias = array_values($this->subcategorias);
                 return true;
-            } elseif (is_array($sub) && isset($sub['id']) && $sub['id'] == $id) {
-                array_splice($this->subCategorias, $idx, 1);
-                return true;
-            }
-        }
-        foreach ($this->subCategorias as $sub) {
-            if (is_object($sub) && method_exists($sub,'eliminarSubcategoria')) {
-                if ($sub->eliminarSubcategoria($id)) return true;
             }
         }
         return false;
     }
 
-    public function mostrarArbol($indent = 0) {
-        $prefix = str_repeat('  ', $indent);
-        // intentar contar productos si existe método o session
-        $count = '';
-        if (method_exists($this, 'contarProductosTotales')) {
-            $c = $this->contarProductosTotales();
-            $count = ' ('.$c.' productos)';
-        }
-        echo $prefix . $this->nombre . $count . PHP_EOL;
-        if (!empty($this->subCategorias)) {
-            foreach ($this->subCategorias as $sub) {
-                if (is_object($sub) && method_exists($sub,'mostrarArbol')) {
-                    $sub->mostrarArbol($indent+1);
-                } else {
-                    $name = is_array($sub) && isset($sub['nombre']) ? $sub['nombre'] : '(sin nombre)';
-                    echo str_repeat('  ', $indent+1) . $name . PHP_EOL;
-                }
-            }
-        }
-    }
 
     public function buscarPorId($id) {
         if ($this->id == $id) return $this;
-        if (!empty($this->subCategorias)) {
-            foreach ($this->subCategorias as $sub) {
-                if (is_object($sub) && method_exists($sub,'buscarPorId')) {
-                    $found = $sub->buscarPorId($id);
-                    if ($found !== null) return $found;
-                } elseif (is_array($sub) && isset($sub['id']) && $sub['id'] == $id) {
-                    return $sub;
-                }
+        foreach ($this->subcategorias as $sub) {
+            $resultado = $sub->buscarPorId($id);
+            if ($resultado != null) {
+                return $resultado;
             }
         }
         return null;
     }
 
-    public function getRutaCompleta() {
-        $nombres = [];
-        $current = $this;
-        while ($current !== null) {
-            $nombres[] = $current->getNombre();
-            $padre = $current->getCategoriaPadre();
-            if (is_object($padre)) {
-                $current = $padre;
-            } else {
-                $current = null;
+
+    public function mostrarArbol($indent = "") {
+        echo $indent . "<strong>" . htmlspecialchars($this->nombre) . "</strong> ";
+        echo "<span style='color: #999;'>(Nivel " . $this->nivel . ")</span><br>";
+        
+        foreach ($this->subcategorias as $sub) {
+            $sub->mostrarArbolHTML($indent . "&nbsp;&nbsp;&nbsp;&nbsp;");
+        }
+    }
+
+
+    //INTEGRACION PRODUCTOS
+     public function agregarProducto($producto)
+    {
+        $this->productos[] = $producto;
+    }
+
+    public function eliminarProducto($idProducto)
+    {
+        foreach ($this->productos as $i => $prod) {
+            if ($prod->getId() == $idProducto) {
+                unset($this->productos[$i]);
+                $this->productos = array_values($this->productos);
+                return true;
             }
         }
-        $nombres = array_reverse($nombres);
-        return implode(' > ', $nombres);
+        return false;
     }
 
     public function contarProductosTotales() {
-        $total = 0;
-        if (isset($_SESSION['productos']) && is_array($_SESSION['productos'])) {
-            foreach ($_SESSION['productos'] as $p) {
-                $cat = null;
-                if (is_object($p) && method_exists($p,'getCategoria')) {
-                    $cat = $p->getCategoria();
-                } elseif (is_array($p) && isset($p['categoria'])) {
-                    $catId = $p['categoria'];
-                    $cat = $_SESSION['categorias'][$catId] ?? null;
-                }
-                if ($cat) {
-                    if (is_object($cat) && method_exists($cat,'getId')) {
-                        if ($cat->getId() == $this->id) $total++;
-                        else {
-                            // si la categoria del producto está debajo de esta por ruta
-                            if (method_exists($cat,'getRutaCompleta') && strpos($cat->getRutaCompleta(), $this->getNombre()) !== false) $total++;
-                        }
-                    } elseif (is_int($cat) || is_string($cat)) {
-                        if ((int)$cat == $this->id) $total++;
-                    }
-                }
+        global $productos; // Array global de productos
+        
+        $count = 0;
+        
+        // Contar productos de esta categoría
+        foreach ($productos as $prod) {
+            if ($prod->getCategoria()->getId() == $this->id) {
+                $count++;
             }
         }
-        // sumar recursivamente hijos
-        if (!empty($this->subCategorias)) {
-            foreach ($this->subCategorias as $sub) {
-                if (is_object($sub) && method_exists($sub,'contarProductosTotales')) {
-                    $total += $sub->contarProductosTotales();
-                }
-            }
+        
+        // Sumar recursivamente productos de subcategorías
+        foreach ($this->subcategorias as $sub) {
+            $count += $sub->contarProductosTotales();
         }
-        return $total;
+        return $count;
     }
+    
+    public function obtenerTodosLosProductos() {
+        global $productos;
+        $resultado = [];
+        // Productos directos de esta categoría
+        foreach ($productos as $prod) {
+            if ($prod->getCategoria()->getId() == $this->id) {
+                $resultado[] = $prod;
+            }
+        }
+        // Productos de todas las subcategorías (recursivo)
+        foreach ($this->subcategorias as $sub) {
+            $resultado = array_merge($resultado, $sub->obtenerTodosLosProductos());
+        }
+        return $resultado;
+    }
+
 
     public function esHoja() {
         return empty($this->subCategorias);
     }
 
-    
+    public function esRaiz() {
+        return $this->categoriaPadre === null;
+    }
+
+    public function puedeSerEliminada() {
+        global $productos;
+        
+        // Verificar que no tenga subcategorías
+        if (!empty($this->subcategorias)) {
+            return false;
+        }
+        
+        // Verificar que no tenga productos asociados
+        foreach ($productos as $prod) {
+            if ($prod->getCategoria()->getId() == $this->id) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+
+    public function getRutaCompleta($separador = " > ") {
+        $ruta = [];
+        $actual = $this;
+        // Recorrer hacia arriba hasta la raíz
+        while ($actual != null) {
+            array_unshift($ruta, $actual->getNombre());
+            $actual = $actual->getCategoriaPadre();
+        }
+        return implode($separador, $ruta);
+    }
+
     
     public function toArray() {
-        return [
+        $array = [
             'id' => $this->id,
             'nombre' => $this->nombre,
             'descripcion' => $this->descripcion,
-            'categoriaPadre' => $this->categoriaPadre,
-            'subCategorias' => $this->subCategorias,
-            'nivel' => $this->nivel
+            'nivel' => $this->nivel,
+            'subcategorias' => []
         ];
+        
+        foreach ($this->subcategorias as $sub) {
+            $array['subcategorias'][] = $sub->toArray();
+        }
+        
+        return $array;
     }
+
+    public function generarSelectHTML($seleccionado = null, $nivel = 0) {
+        $indent = str_repeat("&nbsp;&nbsp;", $nivel);
+        $selected = ($seleccionado == $this->id) ? "selected" : "";
+        
+        $html = "<option value='{$this->id}' $selected>{$indent}{$this->nombre}</option>\n";
+        
+        foreach ($this->subcategorias as $sub) {
+            $html .= $sub->generarSelectHTML($seleccionado, $nivel + 1);
+        }
+        
+        return $html;
+    }
+
 }
 ?>
