@@ -5,8 +5,8 @@
 
     <div class="features-grid">
         <div class="feature-card">
-            <img src="https://www.mi-gb.com/wp-content/uploads/2012/06/CategoryManagementDiagram_Sp.jpg.webp">
-            
+            <img src="https://3313137.fs1.hubspotusercontent-na1.net/hub/3313137/hubfs/Changes-in-digital-commerce-policy-mooted2.jpg?width=676&name=Changes-in-digital-commerce-policy-mooted2.jpg">
+
             <!-- ================= ÁRBOL DE CATEGORÍAS ================= -->
             <div class="arbol-categorias">
                 <h3>Árbol de Categorías</h3>
