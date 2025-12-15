@@ -271,4 +271,18 @@ class ProductoController
             'producto' => $producto
         ];
     }
+    
+    public static function buscarProdPorProveedor($termino)
+    {
+        $resultados = [];
+        $termino = strtolower($termino);
+
+        foreach ($_SESSION['productos'] as $producto) {
+            $proveedor = strtolower($producto->getProveedor());
+            if (strpos($proveedor, $termino) !== false) {
+                $resultados[] = $producto;
+            }
+        }
+        return $resultados;
+    }
 }

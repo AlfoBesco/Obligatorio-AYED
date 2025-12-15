@@ -3,8 +3,10 @@
 require_once 'clases/Pedido.php';
 require_once 'clases/DetallePedido.php';
 
-class PedidoController {
-    public static function crearPed($fechaPedido, $proveedor, $estado) {
+class PedidoController
+{
+    public static function crearPed($fechaPedido, $proveedor, $estado)
+    {
         if (empty($fechaPedido) || empty($proveedor) || empty($estado)) {
             return ['exito' => false, 'mensaje' => 'Todos los campos son obligatorios.', 'tipo' => 'danger'];
         }
@@ -17,20 +19,36 @@ class PedidoController {
         return ['exito' => true, 'mensaje' => 'Pedido creado exitosamente.', 'tipo' => 'success', 'pedido' => $nuevoPedido];
     }
 
-    public static function actualizarPed($id, $fechaPedido, $proveedor, $estado) {
+    public static function actualizarPed($id, $estado)
+    {
         if (!isset($_SESSION['pedidos'][$id])) {
-            return ['exito' => false, 'mensaje' => 'Pedido no encontrado.', 'tipo' => 'danger'];
+            return [
+                'exito' => false,
+                'mensaje' => 'Pedido no encontrado.',
+                'tipo' => 'danger'
+            ];
+        }
+
+        if (empty($estado)) {
+            return [
+                'exito' => false,
+                'mensaje' => 'El campo estado es obligatorio.',
+                'tipo' => 'danger'
+            ];
         }
 
         $pedido = $_SESSION['pedidos'][$id];
-        $pedido->setFechaPedido($fechaPedido);
-        $pedido->setProveedor($proveedor);
         $pedido->setEstado($estado);
-
-        return ['exito' => true, 'mensaje' => 'Pedido actualizado.', 'tipo' => 'success'];
+        return [
+            'exito' => true,
+            'mensaje' => 'Estado actualizado exitosamente: ' . $pedido->getEstado(),
+            'tipo' => 'success',
+            'pedido' => $pedido
+        ];
     }
 
-    public static function eliminarPed($id) {
+    public static function eliminarPed($id)
+    {
         if (!isset($_SESSION['pedidos'][$id])) {
             return ['exito' => false, 'mensaje' => 'Pedido no encontrado.', 'tipo' => 'danger'];
         }
@@ -38,11 +56,13 @@ class PedidoController {
         return ['exito' => true, 'mensaje' => 'Pedido eliminado.', 'tipo' => 'warning'];
     }
 
-    public static function listarTodosPed() {
+    public static function listarTodosPed()
+    {
         return $_SESSION['pedidos'] ?? [];
     }
 
-    public function agregarDetalle() {
+    public function agregarDetalle()
+    {
         $pedido = $this->buscarPedidoPorId($_POST['pedidoId']);
         $producto = $this->buscarProductoPorId($_POST['productoId']);
         if (!$pedido || !$producto) return;
@@ -52,14 +72,16 @@ class PedidoController {
         header("Location: pedidos.php?editar=" . $pedido->getId());
     }
 
-    private function buscarProductoPorId($id) {
+    private function buscarProductoPorId($id)
+    {
         foreach ($_SESSION['productos'] as $p) {
             if ($p->getId() == $id) return $p;
         }
         return null;
     }
 
-    public static function buscarPedidoPorId($id) {
+    public static function buscarPedidoPorId($id)
+    {
         return $_SESSION['pedidos'][$id] ?? null;
     }
 }

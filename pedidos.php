@@ -26,8 +26,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['accion']) && $_POST['accion'] === 'actualizar') {
         $resultado = PedidoController::actualizarPed(
             intval($_POST['id']),
-            trim($_POST['fechaPedido']),
-            trim($_POST['proveedor']),
             trim($_POST['estado'])
         );
         $mensaje = $resultado['mensaje'];
