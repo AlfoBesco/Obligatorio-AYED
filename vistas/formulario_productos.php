@@ -69,13 +69,16 @@ $productoEditar = isset($productoEditar) ? $productoEditar : null;
                     id="fechaRegistro"
                     name="fechaRegistro"
                     value="<?php echo $productoEditar ? htmlspecialchars($productoEditar->getFechaRegistro()) : ''; ?>">
-            </div>
+            </div> <!-- Cerrar correctamente -->
+
             <div class="form-group">
                 <label for="activo">Activo *</label>
                 <select id="activo" name="activo" required>
                     <option value="1" <?php echo ($productoEditar && $productoEditar->isActivo()) ? 'selected' : ''; ?>>Sí</option>
                     <option value="0" <?php echo ($productoEditar && !$productoEditar->isActivo()) ? 'selected' : ''; ?>>No</option>
                 </select>
+            </div> <!-- Cerrar correctamente -->
+
             <div style="margin-top: 20px;">
                 <button type="submit" class="btn btn-primary">
                     <?php echo $productoEditar ? 'Actualizar Producto' : 'Crear Producto'; ?>

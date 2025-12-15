@@ -98,8 +98,8 @@ class ProductoController
             ];
         }
 
-        $categoria = CategoriaController::buscarCatPorId($producto->getCategoria()->getId());
-        $proveedor = ProveedorController::buscarProvPorId($producto->getProveedor()->getId());
+        $categoria = CategoriaController::buscarCatPorId($categoria);
+        $proveedor = ProveedorController::buscarProvPorId($proveedor);
 
         if (!$categoria) {
             return [
