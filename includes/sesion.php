@@ -66,9 +66,9 @@ if (!isset($_SESSION['pedidos'])) {
     $_SESSION['ultimo_id_ped'] = 0;
     $_SESSION['ultimo_id_detalle'] = 0;
 
-    $pedido1 = new Pedido(++$_SESSION['ultimo_id_ped']);
-    $pedido2 = new Pedido(++$_SESSION['ultimo_id_ped']);
-    $pedido3 = new Pedido(++$_SESSION['ultimo_id_ped']);
+    // $pedido1 = new Pedido(++$_SESSION['ultimo_id_ped']);
+    // $pedido2 = new Pedido(++$_SESSION['ultimo_id_ped']);
+    // $pedido3 = new Pedido(++$_SESSION['ultimo_id_ped']);
 
     // $d1 = new DetallePedido(++$_SESSION['ultimo_id_detalle'], $_SESSION['productos'][1], 2, $_SESSION['productos'][1]->getPrecio());
     // $d2 = new DetallePedido(++$_SESSION['ultimo_id_detalle'], $_SESSION['productos'][2], 1, $_SESSION['productos'][2]->getPrecio());

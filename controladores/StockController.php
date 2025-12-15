@@ -59,48 +59,21 @@ class StockController
 
         return ['mensaje' => 'Stock creado exitosamente', 'tipo' => 'success'];
     }
-
-    // Actualizar stock
-    public static function actualizarStock($id, $productoId, $cantidad, $ubicacion, $stockMinimo)
+    
+    // Actualizar solo la cantidad y la fecha
+    public static function actualizarStock($id, $cantidad)
     {
         $stock = self::buscarPorId($id);
         if (!$stock) {
             return ['mensaje' => 'Stock no encontrado', 'tipo' => 'danger'];
         }
 
-        $productos = isset($_SESSION['productos']) ? $_SESSION['productos'] : [];
-        $producto = null;
-
-        foreach ($productos as $prod) {
-            if ($prod->getId() == $productoId) {
-                $producto = $prod;
-                break;
-            }
-        }
-
-        if (!$producto) {
-            return ['mensaje' => 'Producto no encontrado', 'tipo' => 'danger'];
-        }
-
-        $stock->setProducto($producto);
+        // Actualizamos la cantidad
         $stock->setCantidad($cantidad);
-        $stock->setUbicacion($ubicacion);
-        $stock->setStockMinimo($stockMinimo);
 
-        return ['mensaje' => 'Stock actualizado exitosamente', 'tipo' => 'success'];
-    }
+        // Actualizamos la fecha a la actual
+        $stock->setFechaUltimaActualizacion(date('Y-m-d H:i:s'));
 
-    // Eliminar stock
-    public static function eliminarStock($id)
-    {
-        $stock = &$_SESSION['stock'];
-        foreach ($stock as $key => $stock) {
-            if ($stock->getId() == $id) {
-                unset($stock[$key]);
-                $stock = array_values($stock); // Reindexar
-                return ['mensaje' => 'Stock eliminado exitosamente', 'tipo' => 'success'];
-            }
-        }
-        return ['mensaje' => 'Stock no encontrado', 'tipo' => 'danger'];
+        return ['mensaje' => 'Cantidad actualizada exitosamente', 'tipo' => 'success'];
     }
 }

@@ -3,54 +3,53 @@ require_once 'includes/sesion.php';
 require_once 'controladores/PedidoController.php';
 require_once 'controladores/ProveedorController.php';
 
-// Manejar cierre de sesión
-if (isset($_POST['cerrarSesion'])) {
-    session_destroy();
-    header("Location: index.php"); // o la página de inicio
-    exit;
-}
-
-$controller = new PedidoController();
+// Inicializar sesión para pedidos
+if (!isset($_SESSION['pedidos'])) $_SESSION['pedidos'] = [];
+if (!isset($_SESSION['ultimo_id_pedido'])) $_SESSION['ultimo_id_pedido'] = 0;
 
 $mensaje = "";
 $tipoMensaje = "";
+$pedidoEditar = null;
 
 // ================== ACCIONES POST ==================
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-    if ($_POST['accion'] === 'crear') {
-        $resultado = $controller->crearPed(
-            $_POST['productoId'],
-            $_POST['cantidad']
+    if (isset($_POST['accion']) && $_POST['accion'] === 'crear') {
+        $resultado = PedidoController::crearPed(
+            trim($_POST['fechaPedido']),
+            trim($_POST['proveedor']),
+            trim($_POST['estado'])
         );
         $mensaje = $resultado['mensaje'];
         $tipoMensaje = $resultado['tipo'];
     }
 
-    if ($_POST['accion'] === 'agregarDetalle') {
+    if (isset($_POST['accion']) && $_POST['accion'] === 'actualizar') {
+        $resultado = PedidoController::actualizarPed(
+            intval($_POST['id']),
+            trim($_POST['fechaPedido']),
+            trim($_POST['proveedor']),
+            trim($_POST['estado'])
+        );
+        $mensaje = $resultado['mensaje'];
+        $tipoMensaje = $resultado['tipo'];
+    }
+
+    if (isset($_POST['accion']) && $_POST['accion'] === 'eliminar') {
+        $resultado = PedidoController::eliminarPed(intval($_POST['id']));
+        $mensaje = $resultado['mensaje'];
+        $tipoMensaje = $resultado['tipo'];
+    }
+
+    if (isset($_POST['accion']) && $_POST['accion'] === 'agregarDetalle') {
+        $controller = new PedidoController();
         $controller->agregarDetalle();
+        exit;
     }
 }
 
-// ================== ACCIONES GET ==================
-if (isset($_GET['accion'])) {
-    switch ($_GET['accion']) {
-        case 'ver':
-            $controller->verPedido();
-            break;
-
-        case 'cancelar':
-            $controller->cancelarPedido();
-            break;
-
-        case 'entregar':
-            $controller->entregarPedido();
-            break;
-
-        case 'eliminarDetalle':
-            $controller->eliminarDetalle();
-            break;
-    }
+// ================== EDITAR PEDIDO ==================
+if (isset($_GET['editar'])) {
+    $pedidoEditar = PedidoController::buscarPedidoPorId(intval($_GET['editar']));
 }
 
 // ================== VISTA ==================
@@ -58,10 +57,15 @@ $titulo = "Gestión de Pedidos";
 $paginaActual = "pedidos";
 include 'includes/header.php';
 
-if ($mensaje) {
-    echo "<div class='alert alert-$tipoMensaje'>$mensaje</div>";
-}
+// Mostrar mensajes
+if (!empty($mensaje)): ?>
+    <div class="alert alert-<?= $tipoMensaje; ?>">
+        <?= htmlspecialchars($mensaje); ?>
+    </div>
+<?php endif; ?>
 
-include 'vistas/formulario_pedidos.php';
-include 'vistas/listar_pedidos.php';
-include 'includes/footer.php';
+<div class="container<div class=" container">
+    <?php include 'vistas/formulario_pedidos.php'; ?>
+    <?php include 'vistas/formulario_pedidos_detalle.php'; ?>
+    <?php include 'vistas/listar_pedidos.php'; ?>
+</div>

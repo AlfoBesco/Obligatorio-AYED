@@ -1,5 +1,5 @@
-<?php
 
+<?php
 class CategoriaController
 {
     private static function inicializar()
@@ -14,11 +14,10 @@ class CategoriaController
     {
         self::inicializar();
 
-        // Validaciones
         if (empty($nombre) || empty($descripcion)) {
             return [
                 'exito' => false,
-                'mensaje' => 'Los campos Nombre y Descripcion son obligatorios.',
+                'mensaje' => 'Los campos Nombre y Descripción son obligatorios.',
                 'tipo' => 'danger'
             ];
         }
@@ -27,8 +26,6 @@ class CategoriaController
         $nuevoId = $_SESSION['ultimo_id_cat'];
 
         $padre = null;
-
-        // Solo validar si se pasó un valor no vacío
         if (!empty($categoriaPadre)) {
             if (!isset($_SESSION['categorias'][$categoriaPadre])) {
                 return [
@@ -40,29 +37,28 @@ class CategoriaController
             $padre = $_SESSION['categorias'][$categoriaPadre];
         }
 
-        $nuevaCategoria = new Categoria($nuevoId, $nombre, $descripcion, $padre);
-
-        $_SESSION['categorias'][$nuevoId] = $nuevaCategoria;
-
-        // Si tiene padre, agregar la subcategoría
+        $nuevaCategoria = new Categoria($nuevoId, $nombre, $descripcion);
         if ($padre) {
             $padre->agregarSubcategoria($nuevaCategoria);
         }
 
+        $_SESSION['categorias'][$nuevoId] = $nuevaCategoria;
+
         return [
             'exito' => true,
             'mensaje' => 'Categoría creada exitosamente: ' . $nuevaCategoria->getNombre(),
-            'tipo' => 'success',
-            'categoria' => $nuevaCategoria
+            'tipo' => 'success'
         ];
     }
 
     public static function actualizarCat($id, $nombre, $descripcion, $categoriaPadre)
     {
+        self::inicializar();
+
         if (!isset($_SESSION['categorias'][$id])) {
             return [
                 'exito' => false,
-                'mensaje' => 'Categoria no encontrada.',
+                'mensaje' => 'Categoría no encontrada.',
                 'tipo' => 'danger'
             ];
         }
@@ -70,99 +66,94 @@ class CategoriaController
         if (empty($nombre) || empty($descripcion)) {
             return [
                 'exito' => false,
-                'mensaje' => 'Los campos Nombre, Descripcion y nivel son obligatorios.',
+                'mensaje' => 'Los campos Nombre y Descripción son obligatorios.',
                 'tipo' => 'danger'
             ];
         }
 
         $categoria = $_SESSION['categorias'][$id];
-
-        // Validar nuevo padre (no permitir autoreferencia ni descendiente)
         $nuevoPadre = null;
-        if ($categoriaPadre !== null) {
+
+        if (!empty($categoriaPadre)) {
             if (!isset($_SESSION['categorias'][$categoriaPadre])) {
                 return [
                     'exito' => false,
-                    'mensaje' => 'Padre inválido',
+                    'mensaje' => 'Padre inválido.',
                     'tipo' => 'danger'
                 ];
             }
             $nuevoPadre = $_SESSION['categorias'][$categoriaPadre];
 
-            // impedir asignar como hijo a uno de sus descendientes
-            $desc = $categoria->buscarPorId($categoriaPadre);
-            if ($desc !== null) {
+            // Evitar asignar un descendiente como padre
+            if ($categoria->buscarPorId($categoriaPadre) !== null) {
                 return [
                     'exito' => false,
-                    'mensaje' => 'No se puede asignar un descendiente como padre',
+                    'mensaje' => 'No se puede asignar un descendiente como padre.',
                     'tipo' => 'danger'
                 ];
             }
         }
 
-        // Si cambio de padre, quitar enlace del padre anterior
+        // Si cambia de padre, eliminar del anterior
         $antPadre = $categoria->getCategoriaPadre();
-        if ($antPadre && is_object($antPadre) && $antPadre !== $nuevoPadre) {
+        if ($antPadre && $antPadre !== $nuevoPadre) {
             $antPadre->eliminarSubcategoria($id);
         }
-
 
         $categoria->setNombre($nombre);
         $categoria->setDescripcion($descripcion);
         $categoria->setCategoriaPadre($nuevoPadre);
+
         if ($nuevoPadre) {
             $nuevoPadre->agregarSubcategoria($categoria);
         }
 
         return [
             'exito' => true,
-            'mensaje' => 'Categoria actualizada exitosamente: ' . $categoria->getNombre(),
-            'tipo' => 'success',
-            'categoria' => $categoria
+            'mensaje' => 'Categoría actualizada exitosamente: ' . $categoria->getNombre(),
+            'tipo' => 'success'
         ];
     }
 
     public static function eliminarCat($id)
     {
-        foreach ($_SESSION['categoriaRaiz'] as $i => $categoriaRaiz) {
-            if ($categoriaRaiz->getId() == $id) {
+        self::inicializar();
 
-                if (!$categoriaRaiz->puedeEliminarse()) {
-                    return [
-                        'exito' => false,
-                        'mensaje' => 'No se puede eliminar: la categoría tiene subcategorías.',
-                        'tipo' => 'warning'
-                    ];
-                }
-                unset($_SESSION['categoriaRaiz'][$i]);
-                $_SESSION['categoriaRaiz'] = array_values($_SESSION['categoriaRaiz']);
-                return true;
-            }
-
-            $categoria = $categoriaRaiz->buscarPorId($id);
-
-            // Validar que no tenga subcategorías o productos
-            if ($categoria !== null) {
-                if (!$categoria->puedeSerEliminada()) {
-                    return [
-                        'exito' => false,
-                        'mensaje' => 'No se puede eliminar, la categoría tiene subcategorías o productos.',
-                        'tipo' => 'warning'
-                    ];
-                }
-
-                $padre = $categoria->getCategoriaPadre();
-                if ($padre !== null) {
-                    $padre->eliminarSubcategoria($id);
-                    return true;
-                }
-            }
+        if (!isset($_SESSION['categorias'][$id])) {
+            return [
+                'exito' => false,
+                'mensaje' => 'Categoría no encontrada.',
+                'tipo' => 'danger'
+            ];
         }
-        return "categoria no encontrada";
+
+        $categoria = $_SESSION['categorias'][$id];
+
+        if (!$categoria->puedeSerEliminada()) {
+            return [
+                'exito' => false,
+                'mensaje' => 'No se puede eliminar: la categoría tiene subcategorías o productos.',
+                'tipo' => 'warning'
+            ];
+        }
+
+        $padre = $categoria->getCategoriaPadre();
+        if ($padre) {
+            $padre->eliminarSubcategoria($id);
+        }
+
+        unset($_SESSION['categorias'][$id]);
+
+        return [
+            'exito' => true,
+            'mensaje' => 'Categoría eliminada correctamente.',
+            'tipo' => 'success'
+        ];
     }
 
     public static function listarTodasCat()
     {
+        self::inicializar();
         return $_SESSION['categorias'];
     }
 

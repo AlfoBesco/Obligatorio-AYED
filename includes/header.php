@@ -10,12 +10,14 @@ $paginaActual = isset($paginaActual) ? $paginaActual : 'inicio';
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo isset($titulo) ? $titulo : 'Gestión de Productos'; ?></title>
     <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
     <!-- BARRA DE NAVEGACIÓN -->
     <nav class="navbar">
@@ -25,17 +27,17 @@ $paginaActual = isset($paginaActual) ? $paginaActual : 'inicio';
                     <span class="brand-text">Gestión de Productos</span>
                 </a>
             </div>
-            
+
             <ul class="nav-menu">
                 <li class="nav-item <?php echo $paginaActual === 'inicio' ? 'active' : ''; ?>">
                     <a href="index.php">
-                        <span class="nav-icon">🏠</span>
+                        <span class="nav-icon">👀</span>
                         Inicio
                     </a>
                 </li>
                 <li class="nav-item <?php echo $paginaActual === 'categorias' ? 'active' : ''; ?>">
                     <a href="categorias.php">
-                        <span class="nav-icon">🏢</span>
+                        <span class="nav-icon">📌</span>
                         Categorías
                     </a>
                 </li>
@@ -47,31 +49,38 @@ $paginaActual = isset($paginaActual) ? $paginaActual : 'inicio';
                 </li>
                 <li class="nav-item <?php echo $paginaActual === 'productos' ? 'active' : ''; ?>">
                     <a href="productos.php">
-                        <span class="nav-icon">📦</span>
+                        <span class="nav-icon">🛒</span>
                         Productos
                     </a>
                 </li>
                 <li class="nav-item <?php echo $paginaActual === 'stock' ? 'active' : ''; ?>">
                     <a href="stock.php">
-                        <span class="nav-icon">👥</span>
+                        <span class="nav-icon">📊</span>
                         Stock
                     </a>
                 </li>
                 <li class="nav-item <?php echo $paginaActual === 'stock' ? 'active' : ''; ?>">
                     <a href="pedidos.php">
-                        <span class="nav-icon">📑</span>
+                        <span class="nav-icon">📋</span>
                         Pedidos
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="#" class="disabled">
-                        <span class="nav-icon">📊</span>
-                        Reportes
+                <li class="nav-item dropdown <?php echo $paginaActual === 'reportes' ? 'active' : ''; ?>">
+                    <a href="#" class="dropdown-toggle">
+                        <span class="nav-icon">🔍</span>
+                        Reportes ▼
                     </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="reportes_proveedor.php">Proveedores</a></li>
+                        <li><a href="reportes_stock.php">Stock</a></li>
+                        <li><a href="reportes_pedido.php">Pedidos</a></li>
+                        <li><a href="reportes_producto.php">Productos</a></li>
+                        <li><a href="reportes_categoria.php">Categorías</a></li>
+                    </ul>
                 </li>
             </ul>
         </div>
     </nav>
-    
+
     <div class="container">
-        <div class="content"> 
+        <div class="content">

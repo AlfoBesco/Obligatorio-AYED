@@ -12,18 +12,21 @@ class ProductoController
         }
     }
 
+
     public static function crearProd($nombre, $descripcion, $precio, $categoriaId, $proveedorId, $fechaRegistro, $activo)
     {
         self::inicializar();
 
-        // Validaciones básicas
+        // Convertir activo a boolean
+        $activo = filter_var($activo, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+
         if (
             trim($nombre) === '' ||
             trim($descripcion) === '' ||
             !is_numeric($precio) || $precio <= 0 ||
             !is_numeric($categoriaId) || !is_numeric($proveedorId) ||
             trim($fechaRegistro) === '' ||
-            !is_bool($activo)
+            $activo === null
         ) {
             return [
                 'exito' => false,
@@ -32,31 +35,14 @@ class ProductoController
             ];
         }
 
-
-        if (!is_numeric($precio) || $precio <= 0) {
-            return [
-                'exito' => false,
-                'mensaje' => 'El precio debe ser un número mayor a cero.',
-                'tipo' => 'danger'
-            ];
-        }
-
         // Buscar categoría y proveedor
         $categoria = CategoriaController::buscarCatPorId($categoriaId);
         $proveedor = ProveedorController::buscarProvPorId($proveedorId);
 
-        if (!$categoria) {
+        if (!$categoria || !$proveedor) {
             return [
                 'exito' => false,
-                'mensaje' => 'La categoría seleccionada no existe.',
-                'tipo' => 'danger'
-            ];
-        }
-
-        if (!$proveedor) {
-            return [
-                'exito' => false,
-                'mensaje' => 'El proveedor seleccionado no existe.',
+                'mensaje' => 'Categoría o proveedor no válidos.',
                 'tipo' => 'danger'
             ];
         }
@@ -66,17 +52,7 @@ class ProductoController
         $id = $_SESSION['ultimo_id_prod'];
 
         // Crear producto
-        $producto = new Producto(
-            $id,
-            $nombre,
-            $descripcion,
-            $precio,
-            $categoria,
-            $proveedor,
-            $fechaRegistro,
-            $activo
-        );
-
+        $producto = new Producto($id, $nombre, $descripcion, $precio, $categoria, $proveedor, $fechaRegistro, $activo);
         $_SESSION['productos'][$id] = $producto;
 
         return [
@@ -85,7 +61,6 @@ class ProductoController
             'tipo' => 'success'
         ];
     }
-
     public static function actualizarProd($id, $nombre, $descripcion, $precio, $categoria, $proveedor, $fechaRegistro, $activo)
     {
         if (!isset($_SESSION['productos'][$id])) {
@@ -96,7 +71,7 @@ class ProductoController
             ];
         }
 
-        if (empty($nombre) || empty($descripcion) || empty($precio) || empty($categoria) || empty($proveedor) || empty($fechaRegistro) || !isset($activo)) {
+        if (empty($nombre) || empty($descripcion) || empty($precio) || empty($categoria) || empty($proveedor) || empty($fechaRegistro) || empty($activo)) {
             return [
                 'exito' => false,
                 'mensaje' => 'Todos los campos son obligatorios.',

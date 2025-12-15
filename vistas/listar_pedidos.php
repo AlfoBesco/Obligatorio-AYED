@@ -1,64 +1,40 @@
-<?php
-// Este archivo muestra la tabla de pedidos
-$pedidos = $controller->listarPedidos();
-
-?>
-
-<div class="table-section">
-    <div class="section-header">
-        <h2>Lista de Pedidos</h2>
-        <span class="badge badge-primary"><?php echo count($pedidos); ?> registros</span>
-    </div>
-
+<?php $pedidos = PedidoController::listarTodosPed(); ?>
+<div class="table-section" style="margin-top:30px;">
+    <h2>Lista de Pedidos</h2>
+    <span class="badge badge-primary"><?= count($pedidos); ?> registros</span>
     <?php if (empty($pedidos)): ?>
-        <div class="empty-state">
-            <div style="font-size: 4em;">📭</div>
-            <h3>No hay pedidos registrados</h3>
-            <p>Comienza agregando tu primer pedido usando el formulario de arriba.</p>
-        </div>
+        <p>No hay pedidos registrados.</p>
     <?php else: ?>
-        <div class="table-responsive">
-            <table>
-                <thead>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Fecha</th>
+                    <th>Proveedor</th>
+                    <th>Estado</th>
+                    <th>Total</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($pedidos as $pedido): ?>
                     <tr>
-                        <th>ID</th>
-                        <th>Fecha de pedido</th>
-                        <th>Proveedor</th>
-                        <th>Estado principal</th>
-                        <th>Detalles</th>
-                        <th>Total</th>
-                        <th>Acciones</th>
+                        <td>#<?= $pedido->getId(); ?></td>
+                        <td><?= htmlspecialchars($pedido->getFechaPedido()); ?></td>
+                        <td><?= htmlspecialchars($pedido->getProveedor()); ?></td>
+                        <td><?= htmlspecialchars($pedido->getEstado()); ?></td>
+                        <td><?= number_format($pedido->getTotal(), 2, ',', '.'); ?></td>
+                        <td>
+                            <a href="pedidos.php?editar=<?= $pedido->getId(); ?>" class="btn btn-warning btn-sm">Agregar Detalle</a>
+                            <a href="pedidos.php?editar=<?= $pedido->getId(); ?>" class="btn btn-warning btn-sm">Modificar</a>
+                            <form method="POST" style="display:inline;">
+                                <input type="hidden" name="accion" value="eliminar">
+                                <input type="hidden" name="id" value="<?= $pedido->getId(); ?>">
+                                <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                            </form>
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($pedidos as $pedido): ?>
-                        <tr>
-                            <td><span class="badge badge-info">#<?php echo $pedido->getId(); ?></span></td>
-                            <td><strong><?php echo htmlspecialchars($pedido->getFechaPedido()); ?></strong></td>
-                            <td><?php echo htmlspecialchars($pedido->getProveedor()); ?></td>
-                            <td><?php echo htmlspecialchars($pedido->getEstado()); ?></td>
-                            <td><?php echo htmlspecialchars($pedido->getDetalles()); ?></td>
-                            <td><?php echo date('d/m/Y', strtotime($pedido->getTotal())); ?></td>
-                            <td>
-                                <div class="actions">
-                                    <a href="pedidos.php?editar=<?php echo $pedido->getId(); ?>" class="btn btn-warning btn-sm">
-                                        Editar
-                                    </a>
-
-                                    <form method="POST" style="display: inline;"
-                                        onsubmit="return confirm('¿Estás seguro de eliminar a <?php echo htmlspecialchars($pedido->getId()); ?>?');">
-                                        <input type="hidden" name="accion" value="eliminar">
-                                        <input type="hidden" name="id" value="<?php echo $pedido->getId(); ?>">
-                                        <button type="submit" class="btn btn-danger btn-sm">
-                                            Eliminar
-                                        </button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
     <?php endif; ?>
-</div>

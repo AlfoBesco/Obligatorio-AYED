@@ -1,65 +1,55 @@
-<?php
 
-class Pedido
-{
+<?php
+class Pedido {
     private $id;
-    private $fecha;
+    private $fechaPedido;
+    private $proveedor;
     private $estado;
     private $detalles = [];
+    private $total = 0;
 
-    public function __construct($id)
-    {
+    public function __construct($id, $fechaPedido, $proveedor, $estado, $detalles = [], $total = 0) {
         $this->id = $id;
-        $this->fecha = date("Y-m-d");
-        $this->estado = "pendiente";
+        $this->fechaPedido = $fechaPedido;
+        $this->proveedor = $proveedor;
+        $this->estado = $estado;
+        $this->detalles = $detalles;
+        $this->total = $total;
     }
 
-    public function getId()
-    {
-        return $this->id;
-    }
+    public function getId() { return $this->id; }
+    public function getFechaPedido() { return $this->fechaPedido; }
+    public function getProveedor() { return $this->proveedor; }
+    public function getEstado() { return $this->estado; }
+    public function getDetalles() { return $this->detalles; }
+    public function getTotal() { return $this->total; }
 
-    public function getEstado()
-    {
-        return $this->estado;
-    }
+    public function setFechaPedido($fechaPedido) { $this->fechaPedido = $fechaPedido; }
+    public function setProveedor($proveedor) { $this->proveedor = $proveedor; }
+    public function setEstado($estado) { $this->estado = $estado; }
 
-    public function getDetalles()
-    {
-        return $this->detalles;
-    }
+    public function cambiarEstado($nuevoEstado) { $this->estado = $nuevoEstado; }
 
-    public function agregarDetalle($detalle)
-    {
+    public function agregarDetalle($detalle) {
         $this->detalles[] = $detalle;
+        $this->calcularTotal();
     }
 
-    public function eliminarDetalle($detalleId)
-    {
+    public function eliminarDetalle($detalleId) {
         foreach ($this->detalles as $i => $d) {
             if ($d->getId() == $detalleId) {
                 unset($this->detalles[$i]);
                 $this->detalles = array_values($this->detalles);
-                return;
+                break;
             }
         }
-    }
+        $this->calcularTotal();
+       }
 
-    public function cancelarPedido()
-    {
-        if ($this->estado === "pendiente") {
-            $this->estado = "cancelado";
-            return true;
+    private function calcularTotal() {
+        $this->total = 0;
+        foreach ($this->detalles as $detalle) {
+            $this->total += $detalle->getCantidad() * $detalle->getPrecioUnitario();
         }
-        return false;
-    }
-
-    public function entregarPedido()
-    {
-        if ($this->estado === "pendiente") {
-            $this->estado = "entregado";
-            return true;
-        }
-        return false;
     }
 }

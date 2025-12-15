@@ -29,22 +29,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['accion']) && $_POST['accion'] === 'actualizar') {
         $resultado = StockController::actualizarStock(
             intval($_POST['id']),
-            trim($_POST['productoId']),
-            intval($_POST['cantidad']),
-            trim($_POST['ubicacion']),
-            intval($_POST['stockMinimo'])
+            intval($_POST['cantidad'])
         );
-
-        $mensaje = $resultado['mensaje'];
-        $tipoMensaje = $resultado['tipo'];
-    }
-
-    // ELIMINAR STOCK
-    if (isset($_POST['accion']) && $_POST['accion'] === 'eliminar') {
-        $resultado = StockController::eliminarStock(intval($_POST['id']));
-
-        $mensaje = $resultado['mensaje'];
-        $tipoMensaje = $resultado['tipo'];
     }
 }
 
@@ -53,6 +39,7 @@ $stockEditar = null;
 if (isset($_GET['editar'])) {
     $stockEditar = StockController::buscarPorId(intval($_GET['editar']));
 }
+
 
 // ========== INCLUIR VISTAS ==========
 $titulo = "Gestión de Stock";

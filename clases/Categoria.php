@@ -82,14 +82,14 @@ class Categoria
     {
         foreach ($this->subCategorias as $key => $sub) {
             if ($sub->getId() == $id) {
-                unset($this->subcategorias[$key]);
-                // Re-indexar el array
+                unset($this->subCategorias[$key]);
                 $this->subCategorias = array_values($this->subCategorias);
                 return true;
             }
         }
         return false;
     }
+
 
     public function buscarPorId($id)
     {
@@ -109,7 +109,7 @@ class Categoria
         echo "<span style='color: #999;'>(Nivel " . $this->nivel . ")</span><br>";
 
         foreach ($this->subCategorias as $sub) {
-            $sub->mostrarArbolHTML($indent . "&nbsp;&nbsp;&nbsp;&nbsp;");
+            $sub->mostrarArbol($indent . "&nbsp;&nbsp;&nbsp;&nbsp;");
         }
     }
 
@@ -179,16 +179,17 @@ class Categoria
         return $this->categoriaPadre === null;
     }
 
+
     public function puedeSerEliminada()
     {
         global $productos;
 
-        // Verificar que no tenga subcategorías
-        if (!empty($this->subcategorias)) {
+        // Si tiene subcategorías, no se puede eliminar
+        if (!empty($this->subCategorias)) {
             return false;
         }
 
-        // Verificar que no tenga productos asociados
+        // Si tiene productos asociados, tampoco se puede eliminar
         foreach ($productos as $prod) {
             if ($prod->getCategoria()->getId() == $this->id) {
                 return false;
