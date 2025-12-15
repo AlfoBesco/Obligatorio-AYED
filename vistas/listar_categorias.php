@@ -32,24 +32,34 @@ $categorias = CategoriaController::listarTodasCat();
                     <?php foreach ($categorias as $categoria): ?>
                         <tr>
                             <td><span class="badge badge-info">#<?php echo $categoria->getId(); ?></span></td>
-                            <td><strong><?php echo htmlspecialchars($categoria->getNombreCompleto()); ?></strong></td>
-                            <td><?php echo htmlspecialchars($categoria->getEmail()); ?></td>
-                            <td><?php echo htmlspecialchars($categoria->getTelefono()); ?></td>
-                            <td><?php echo htmlspecialchars($categoria->getDireccion()); ?></td>
-                            <td><?php echo date('d/m/Y', strtotime($categoria->getFechaRegistro())); ?></td>
+                            <td><?php echo htmlspecialchars($categoria->getNombre()); ?></td>
+                            <td><?php echo htmlspecialchars($categoria->getDescripcion()); ?></td>
+                            <td>
+                                <?php
+                                echo $categoria->getCategoriaPadre()
+                                    ? htmlspecialchars($categoria->getCategoriaPadre()->getNombre())
+                                    : '-';
+                                ?>
+                            </td>
+                            <td>
+                                <?php
+                                if (!empty($categoria->getSubCategorias())) {
+                                    foreach ($categoria->getSubCategorias() as $sub) {
+                                        echo htmlspecialchars($sub->getNombre()) . "<br>";
+                                    }
+                                } else {
+                                    echo "-";
+                                }
+                                ?>
+                            </td>
                             <td>
                                 <div class="actions">
-                                    <a href="categorias.php?editar=<?php echo $categoria->getId(); ?>" class="btn btn-warning btn-sm">
-                                        Editar
-                                    </a>
-
-                                    <form method="POST" style="display: inline;"
-                                        onsubmit="return confirm('¿Estás seguro de eliminar a <?php echo htmlspecialchars($categoria->getNombreCompleto()); ?>?');">
+                                    <a href="categorias.php?editar=<?php echo $categoria->getId(); ?>" class="btn btn-warning btn-sm">Editar</a>
+                                    <form method="POST" style="display:inline;"
+                                        onsubmit="return confirm('¿Estás seguro de eliminar <?php echo htmlspecialchars($categoria->getNombre()); ?>?');">
                                         <input type="hidden" name="accion" value="eliminar">
                                         <input type="hidden" name="id" value="<?php echo $categoria->getId(); ?>">
-                                        <button type="submit" class="btn btn-danger btn-sm">
-                                            Eliminar
-                                        </button>
+                                        <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
                                     </form>
                                 </div>
                             </td>
