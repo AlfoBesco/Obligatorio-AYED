@@ -20,7 +20,7 @@ $stockEditar = isset($stockEditar) ? $stockEditar : null;
 
                     <?php foreach ($_SESSION['productos'] as $cat): ?>
                         <option value="<?= $cat->getId(); ?>"
-                            <?= ($productoEditar && $productoEditar->getProducto()->getId() == $cat->getId()) ? 'selected' : '' ?>>
+                            <?= ($stockEditar && $stockEditar->getProducto()->getId() == $cat->getId()) ? 'selected' : '' ?>>
                             <?= htmlspecialchars($cat->getNombre()); ?>
                         </option>
                     <?php endforeach; ?>

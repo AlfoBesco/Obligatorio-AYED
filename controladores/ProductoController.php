@@ -18,15 +18,20 @@ class ProductoController
 
         // Validaciones básicas
         if (
-            empty($nombre) || empty($descripcion) || empty($precio) ||
-            empty($categoriaId) || empty($proveedorId) || empty($fechaRegistro)
+            trim($nombre) === '' ||
+            trim($descripcion) === '' ||
+            !is_numeric($precio) || $precio <= 0 ||
+            !is_numeric($categoriaId) || !is_numeric($proveedorId) ||
+            trim($fechaRegistro) === '' ||
+            !is_bool($activo)
         ) {
             return [
                 'exito' => false,
-                'mensaje' => 'Todos los campos son obligatorios.',
+                'mensaje' => 'Todos los campos son obligatorios y deben ser válidos.',
                 'tipo' => 'danger'
             ];
         }
+
 
         if (!is_numeric($precio) || $precio <= 0) {
             return [
@@ -91,7 +96,7 @@ class ProductoController
             ];
         }
 
-        if (empty($nombre) || empty($descripcion) || empty($precio) || empty($categoria) || empty($proveedor) || empty($fechaRegistro) || empty($activo)) {
+        if (empty($nombre) || empty($descripcion) || empty($precio) || empty($categoria) || empty($proveedor) || empty($fechaRegistro) || !isset($activo)) {
             return [
                 'exito' => false,
                 'mensaje' => 'Todos los campos son obligatorios.',
@@ -162,7 +167,7 @@ class ProductoController
         unset($_SESSION['productos'][$id]);
         return [
             'exito' => true,
-            'mensaje' => 'Producto eliminado: ' . $producto,
+            'mensaje' => 'Producto eliminado: ' . $producto->getNombre(),
             'tipo' => 'warning'
         ];
     }

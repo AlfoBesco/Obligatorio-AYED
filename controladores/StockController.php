@@ -11,22 +11,22 @@ class StockController
             session_start();
         }
 
-        if (!isset($_SESSION['stocks'])) {
-            $_SESSION['stocks'] = [];
+        if (!isset($_SESSION['stock'])) {
+            $_SESSION['stock'] = [];
         }
     }
 
-    // Listar todos los stocks
+    // Listar todos los stock
     public static function listarTodosStock()
     {
-        return isset($_SESSION['stocks']) ? $_SESSION['stocks'] : [];
+        return isset($_SESSION['stock']) ? $_SESSION['stock'] : [];
     }
 
     // Buscar stock por ID
     public static function buscarPorId($id)
     {
-        $stocks = self::listarTodosStock();
-        foreach ($stocks as $stock) {
+        $stock = self::listarTodosStock();
+        foreach ($stock as $stock) {
             if ($stock->getId() == $id) {
                 return $stock;
             }
@@ -51,11 +51,11 @@ class StockController
             return ['mensaje' => 'Producto no encontrado', 'tipo' => 'danger'];
         }
 
-        $id = count($_SESSION['stocks']) + 1;
+        $id = count($_SESSION['stock']) + 1;
         $fechaActualizacion = date('Y-m-d H:i:s');
 
         $stock = new Stock($id, $producto, $cantidad, $ubicacion, $fechaActualizacion, $stockMinimo);
-        $_SESSION['stocks'][] = $stock;
+        $_SESSION['stock'][] = $stock;
 
         return ['mensaje' => 'Stock creado exitosamente', 'tipo' => 'success'];
     }
@@ -93,11 +93,11 @@ class StockController
     // Eliminar stock
     public static function eliminarStock($id)
     {
-        $stocks = &$_SESSION['stocks'];
-        foreach ($stocks as $key => $stock) {
+        $stock = &$_SESSION['stock'];
+        foreach ($stock as $key => $stock) {
             if ($stock->getId() == $id) {
-                unset($stocks[$key]);
-                $stocks = array_values($stocks); // Reindexar
+                unset($stock[$key]);
+                $stock = array_values($stock); // Reindexar
                 return ['mensaje' => 'Stock eliminado exitosamente', 'tipo' => 'success'];
             }
         }

@@ -3,6 +3,7 @@
 // Incluir archivos necesarios
 require_once 'includes/sesion.php';
 require_once 'controladores/StockController.php';
+require_once 'controladores/ProductoController.php';
 
 // Variables para mensajes
 $mensaje = "";

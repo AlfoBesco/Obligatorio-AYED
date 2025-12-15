@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             trim($_POST['categoria']),
             trim($_POST['proveedor']),
             trim($_POST['fechaRegistro']),
-            trim($_POST['activox'])
+            trim($_POST['activo'])
         );
         
         $mensaje = $resultado['mensaje'];
