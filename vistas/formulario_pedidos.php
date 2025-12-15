@@ -6,7 +6,7 @@ $pedidoEditar = isset($pedidoEditar) ? $pedidoEditar : null;
 <div class="form-section">
     <h2><?php echo $pedidoEditar ? 'Editar Pedido' : 'Agregar Nuevo Pedido'; ?></h2>
 
-    <form method="POST" action="index.php">
+    <form method="POST" action="pedidos.php">
         <input type="hidden" name="accion" value="<?php echo $pedidoEditar ? 'actualizar' : 'crear'; ?>">
         <?php if ($pedidoEditar): ?>
             <input type="hidden" name="id" value="<?php echo $pedidoEditar->getId(); ?>">

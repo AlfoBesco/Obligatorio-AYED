@@ -6,7 +6,7 @@ $productoEditar = isset($productoEditar) ? $productoEditar : null;
 <div class="form-section">
     <h2><?php echo $productoEditar ? 'Editar Producto' : 'Agregar Nuevo Producto'; ?></h2>
 
-    <form method="POST" action="index.php">
+    <form method="POST" action="productos.php">
         <input type="hidden" name="accion" value="<?php echo $productoEditar ? 'actualizar' : 'crear'; ?>">
         <?php if ($productoEditar): ?>
             <input type="hidden" name="id" value="<?php echo $productoEditar->getId(); ?>">

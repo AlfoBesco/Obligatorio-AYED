@@ -8,7 +8,7 @@ $stock = StockController::listarTodosStock();
         <h2>Lista de Stock</h2>
         <span class="badge badge-primary"><?php echo count($stock); ?> registros</span>
     </div>
-    
+
     <?php if (empty($stock)): ?>
         <div class="empty-state">
             <div style="font-size: 4em;">📭</div>
@@ -29,22 +29,22 @@ $stock = StockController::listarTodosStock();
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($stock as $proveedor): ?>
+                    <?php foreach ($stock as $item): ?>
                         <tr>
                             <td><span class="badge badge-info">#<?php echo $proveedor->getId(); ?></span></td>
-                            <td><?php echo htmlspecialchars($proveedor->getNombreEmpresa()); ?></td>
-                            <td><?php echo htmlspecialchars($proveedor->getContacto()); ?></td>
-                            <td><?php echo htmlspecialchars($proveedor->getTelefono()); ?></td>
-                            <td><?php echo htmlspecialchars($proveedor->getEmail()); ?></td>
-                            <td><?php echo htmlspecialchars($proveedor->getDireccion()); ?></td>
+                            <td><?= htmlspecialchars($item->getProducto()->getNombre()); ?></td>
+                            <td><?= htmlspecialchars($item->getCantidad()); ?></td>
+                            <td><?= htmlspecialchars($item->getUbicacion()); ?></td>
+                            <td><?= date('d/m/Y', strtotime($item->getFechaUltimaActualizacion())); ?></td>
+                            <td><?= htmlspecialchars($item->getStockMinimo()); ?></td>
                             <td>
                                 <div class="actions">
                                     <a href="stock.php?editar=<?php echo $proveedor->getId(); ?>" class="btn btn-warning btn-sm">
                                         Editar
                                     </a>
-                                    
-                                    <form method="POST" style="display: inline;" 
-                                          onsubmit="return confirm('¿Estás seguro de eliminar a <?php echo htmlspecialchars($proveedor->getId()); ?>?');">
+
+                                    <form method="POST" style="display: inline;"
+                                        onsubmit="return confirm('¿Estás seguro de eliminar a <?php echo htmlspecialchars($proveedor->getId()); ?>?');">
                                         <input type="hidden" name="accion" value="eliminar">
                                         <input type="hidden" name="id" value="<?php echo $proveedor->getId(); ?>">
                                         <button type="submit" class="btn btn-danger btn-sm">

@@ -66,10 +66,10 @@ if (!empty($mensaje)): ?>
 <?php endif;
 
 // Mostrar formulario
-include 'vistas/stock/formulario_stock.php';
+include 'vistas/formulario_stock.php';
 
 // Mostrar lista
-include 'vistas/stock/listar_stock.php';
+include 'vistas/listar_stock.php';
 
 // Footer
 include 'includes/footer.php';

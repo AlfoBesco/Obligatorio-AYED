@@ -1,6 +1,6 @@
 <?php
-require_once "../clases/Stock.php";
-require_once "../clases/Producto.php";
+require_once __DIR__ . '/../clases/Stock.php';
+require_once __DIR__ . '/../clases/Producto.php';
 
 class StockController
 {

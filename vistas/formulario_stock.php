@@ -15,7 +15,7 @@ $stockEditar = isset($stockEditar) ? $stockEditar : null;
         <div class="form-row">
             <div class="form-group">
                 <label for="producto">Producto *</label>
-                <select id="producto" name="producto" required>
+                <select id="productoId" name="productoId" required>
                     <option value="">-- Seleccione un producto --</option>
 
                     <?php foreach ($_SESSION['productos'] as $cat): ?>
