@@ -2,6 +2,13 @@
 require_once 'includes/sesion.php';
 require_once 'controladores/PedidoController.php';
 
+// Manejar cierre de sesión
+if (isset($_POST['cerrarSesion'])) {
+    session_destroy();
+    header("Location: index.php"); // o la página de inicio
+    exit;
+}
+
 $controller = new PedidoController();
 
 $mensaje = "";

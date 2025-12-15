@@ -67,7 +67,7 @@ class CategoriaController
             ];
         }
 
-        if (empty($nombre) || empty($descripcion) || empty($nivel)) {
+        if (empty($nombre) || empty($descripcion)) {
             return [
                 'exito' => false,
                 'mensaje' => 'Los campos Nombre, Descripcion y nivel son obligatorios.',
@@ -83,7 +83,7 @@ class CategoriaController
             if (!isset($_SESSION['categorias'][$categoriaPadre])) {
                 return [
                     'exito' => false,
-                    'mensaje ' => 'Padre inválido',
+                    'mensaje' => 'Padre inválido',
                     'tipo' => 'danger'
                 ];
             }
