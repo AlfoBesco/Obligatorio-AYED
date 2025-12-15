@@ -1,54 +1,49 @@
 <?php
 
 require_once 'includes/sesion.php';
+
 require_once 'controladores/CategoriaController.php';
 
 $mensaje = "";
 $tipoMensaje = "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    
+
     if (isset($_POST['accion']) && $_POST['accion'] === 'crear') {
+
+        $nombre = trim($_POST['nombre'] ?? '');
+        $descripcion = trim($_POST['descripcion'] ?? '');
+        $categoriaPadreId = $_POST['categoriaPadre'] ?? null;
+
         $resultado = CategoriaController::crearCat(
-            trim($_POST['nombre']),
-            trim($_POST['descripcion']),
-            trim($_POST['categoriaPadre']),
-            trim($_POST['subCategorias']),
-            trim($_POST['nivel'])
+            $nombre,
+            $descripcion,
+            $categoriaPadreId
         );
-        
+
         $mensaje = $resultado['mensaje'];
         $tipoMensaje = $resultado['tipo'];
     }
-    
-    if (isset($_POST['accion']) && $_POST['accion'] === 'actualizar') {
-        $resultado = ClienteController::actualizar(
-            intval($_POST['id']),
-            trim($_POST['nombre']),
-            trim($_POST['apellido']),
-            trim($_POST['email']),
-            trim($_POST['telefono']),
-            trim($_POST['direccion'])
-        );
-        
-        $mensaje = $resultado['mensaje'];
-        $tipoMensaje = $resultado['tipo'];
-    }
-    
+
     if (isset($_POST['accion']) && $_POST['accion'] === 'eliminar') {
-        $resultado = ClienteController::eliminar(intval($_POST['id']));
-        
+
+        $resultado = CategoriaController::eliminarCat(
+            intval($_POST['id'])
+        );
+
         $mensaje = $resultado['mensaje'];
         $tipoMensaje = $resultado['tipo'];
     }
 }
 
-$clienteEditar = null;
+$categoriaEditar = null;
 if (isset($_GET['editar'])) {
-    $clienteEditar = ClienteController::buscarPorId(intval($_GET['editar']));
+    $categoriaEditar = CategoriaController::buscarCatPorId(
+        intval($_GET['editar'])
+    );
 }
 
-$titulo = "CRUD Clientes";
+$titulo = "CRUD Categorías";
 include 'includes/header.php';
 
 if (!empty($mensaje)): ?>
@@ -58,11 +53,4 @@ if (!empty($mensaje)): ?>
 <?php endif;
 
 include 'vistas/principal.php';
-
-// include 'vistas/formulario.php';
-
-// include 'vistas/listar.php';
-
 include 'includes/footer.php';
-
-?>

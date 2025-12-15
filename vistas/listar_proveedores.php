@@ -1,6 +1,6 @@
 <?php
 // Este archivo muestra la tabla de proveedores
-$proveedores = ProveedorController::listarTodos();
+$proveedores = ProveedorController::listarTodosProv();
 ?>
 
 <div class="table-section">
@@ -21,30 +21,23 @@ $proveedores = ProveedorController::listarTodos();
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Fecha de proveedor</th>
-                        <th>Proveedor</th>
-                        <th>Estado principal</th>
-                        <th>Detalles</th>
-                        <th>Total</th>
+                        <th>Nombre fantasía</th>
+                        <th>Contacto</th>
+                        <th>Teléfono</th>
+                        <th>E-Mail</th>
+                        <th>Dirección</th>
                         <th>Acciones</th>
-                        private $id;
-    private $fechaProveedor;
-    private $proveedor;
-    private $estado;
-    private $detalles;
-    private $total;
-    
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($proveedores as $proveedor): ?>
                         <tr>
                             <td><span class="badge badge-info">#<?php echo $proveedor->getId(); ?></span></td>
-                            <td><strong><?php echo htmlspecialchars($proveedor->getFechaProveedor()); ?></strong></td>
-                            <td><?php echo htmlspecialchars($proveedor->getProveedor()); ?></td>
-                            <td><?php echo htmlspecialchars($proveedor->getEstado()); ?></td>
-                            <td><?php echo htmlspecialchars($proveedor->getDetalles()); ?></td>
-                            <td><?php echo date('d/m/Y', strtotime($proveedor->getTotal())); ?></td>
+                            <td><?php echo htmlspecialchars($proveedor->getNombreEmpresa()); ?></td>
+                            <td><?php echo htmlspecialchars($proveedor->getContacto()); ?></td>
+                            <td><?php echo htmlspecialchars($proveedor->getTelefono()); ?></td>
+                            <td><?php echo htmlspecialchars($proveedor->getEmail()); ?></td>
+                            <td><?php echo htmlspecialchars($proveedor->getDireccion()); ?></td>
                             <td>
                                 <div class="actions">
                                     <a href="proveedores.php?editar=<?php echo $proveedor->getId(); ?>" class="btn btn-warning btn-sm">

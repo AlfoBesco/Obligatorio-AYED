@@ -65,8 +65,6 @@ class Proveedor {
         $this->direccion = $direccion;
     }
 
-
-
     public function getProductos() {
     if (!isset($_SESSION['productos'])) {
         return [];
@@ -85,9 +83,6 @@ class Proveedor {
     public function contarProductos() {
         return count($this->getProductos());
     }
-
-
-
 
     public function toArray() {
         return [

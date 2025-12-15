@@ -1,4 +1,5 @@
 <?php
+require_once 'includes/sesion.php';
 // Si no hay sesión iniciada, iniciarla
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -21,7 +22,6 @@ $paginaActual = isset($paginaActual) ? $paginaActual : 'inicio';
         <div class="nav-container">
             <div class="nav-brand">
                 <a href="index.php">
-                    <span class="brand-icon">🏢</span>
                     <span class="brand-text">Gestión de Productos</span>
                 </a>
             </div>
@@ -35,8 +35,14 @@ $paginaActual = isset($paginaActual) ? $paginaActual : 'inicio';
                 </li>
                 <li class="nav-item <?php echo $paginaActual === 'categorias' ? 'active' : ''; ?>">
                     <a href="categorias.php">
-                        <span class="nav-icon">👥</span>
+                        <span class="nav-icon">🏢</span>
                         Categorías
+                    </a>
+                </li>
+                <li class="nav-item <?php echo $paginaActual === 'proveedores' ? 'active' : ''; ?>">
+                    <a href="proveedores.php">
+                        <span class="nav-icon">👥</span>
+                        Proveedores
                     </a>
                 </li>
                 <li class="nav-item <?php echo $paginaActual === 'productos' ? 'active' : ''; ?>">
@@ -45,10 +51,16 @@ $paginaActual = isset($paginaActual) ? $paginaActual : 'inicio';
                         Productos
                     </a>
                 </li>
-                <li class="nav-item <?php echo $paginaActual === 'proveedores' ? 'active' : ''; ?>">
-                    <a href="proveedores.php">
-                        <span class="nav-icon">📦</span>
-                        Proveedores
+                <li class="nav-item <?php echo $paginaActual === 'stock' ? 'active' : ''; ?>">
+                    <a href="stock.php">
+                        <span class="nav-icon">👥</span>
+                        Stock
+                    </a>
+                </li>
+                <li class="nav-item <?php echo $paginaActual === 'stock' ? 'active' : ''; ?>">
+                    <a href="pedidos.php">
+                        <span class="nav-icon">📑</span>
+                        Pedidos
                     </a>
                 </li>
                 <li class="nav-item">

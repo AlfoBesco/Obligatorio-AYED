@@ -1,6 +1,7 @@
 <?php
 // Este archivo muestra la tabla de pedidos
-$pedidos = PedidoController::listarTodos();
+$pedidos = $controller->listarPedidos();
+
 ?>
 
 <div class="table-section">
@@ -8,7 +9,7 @@ $pedidos = PedidoController::listarTodos();
         <h2>Lista de Pedidos</h2>
         <span class="badge badge-primary"><?php echo count($pedidos); ?> registros</span>
     </div>
-    
+
     <?php if (empty($pedidos)): ?>
         <div class="empty-state">
             <div style="font-size: 4em;">📭</div>
@@ -27,13 +28,6 @@ $pedidos = PedidoController::listarTodos();
                         <th>Detalles</th>
                         <th>Total</th>
                         <th>Acciones</th>
-                        private $id;
-    private $fechaPedido;
-    private $proveedor;
-    private $estado;
-    private $detalles;
-    private $total;
-    
                     </tr>
                 </thead>
                 <tbody>
@@ -50,9 +44,9 @@ $pedidos = PedidoController::listarTodos();
                                     <a href="pedidos.php?editar=<?php echo $pedido->getId(); ?>" class="btn btn-warning btn-sm">
                                         Editar
                                     </a>
-                                    
-                                    <form method="POST" style="display: inline;" 
-                                          onsubmit="return confirm('¿Estás seguro de eliminar a <?php echo htmlspecialchars($pedido->getId()); ?>?');">
+
+                                    <form method="POST" style="display: inline;"
+                                        onsubmit="return confirm('¿Estás seguro de eliminar a <?php echo htmlspecialchars($pedido->getId()); ?>?');">
                                         <input type="hidden" name="accion" value="eliminar">
                                         <input type="hidden" name="id" value="<?php echo $pedido->getId(); ?>">
                                         <button type="submit" class="btn btn-danger btn-sm">

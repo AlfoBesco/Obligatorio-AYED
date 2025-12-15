@@ -1,6 +1,6 @@
 <?php
 // Este archivo muestra la tabla de categorias
-$categorias = CategoriaController::listarTodos();
+$categorias = CategoriaController::listarTodasCat();
 ?>
 
 <div class="table-section">
@@ -8,7 +8,7 @@ $categorias = CategoriaController::listarTodos();
         <h2>Lista de Categorías</h2>
         <span class="badge badge-primary"><?php echo count($categorias); ?> registros</span>
     </div>
-    
+
     <?php if (empty($categorias)): ?>
         <div class="empty-state">
             <div style="font-size: 4em;">📭</div>
@@ -25,15 +25,7 @@ $categorias = CategoriaController::listarTodos();
                         <th>Descripción</th>
                         <th>Categoría principal</th>
                         <th>Sub-Categorías</th>
-                        <th>Fecha Registro</th>
                         <th>Acciones</th>
-                        private $id;
-    private $nombre;
-    private $descripcion;
-    private $categoriaPadre;
-    private $subCategorias;
-    private $nivel;
-    
                     </tr>
                 </thead>
                 <tbody>
@@ -50,9 +42,9 @@ $categorias = CategoriaController::listarTodos();
                                     <a href="categorias.php?editar=<?php echo $categoria->getId(); ?>" class="btn btn-warning btn-sm">
                                         Editar
                                     </a>
-                                    
-                                    <form method="POST" style="display: inline;" 
-                                          onsubmit="return confirm('¿Estás seguro de eliminar a <?php echo htmlspecialchars($categoria->getNombreCompleto()); ?>?');">
+
+                                    <form method="POST" style="display: inline;"
+                                        onsubmit="return confirm('¿Estás seguro de eliminar a <?php echo htmlspecialchars($categoria->getNombreCompleto()); ?>?');">
                                         <input type="hidden" name="accion" value="eliminar">
                                         <input type="hidden" name="id" value="<?php echo $categoria->getId(); ?>">
                                         <button type="submit" class="btn btn-danger btn-sm">

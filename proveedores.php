@@ -13,12 +13,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     // CREAR PROVEEDOR
     if (isset($_POST['accion']) && $_POST['accion'] === 'crear') {
-        $resultado = ProveedorController::crearProveedor(
-            trim($_POST['fechaProveedor']),
-            trim($_POST['proveedor']),
-            trim($_POST['estado']),
-            trim($_POST['detalles']),
-            trim($_POST['total'])
+        $resultado = ProveedorController::crearProv(
+            trim($_POST['nombreEmpresa']),
+            trim($_POST['contacto']),
+            trim($_POST['telefono']),
+            trim($_POST['email']),
+            trim($_POST['direccion'])
         );
         
         $mensaje = $resultado['mensaje'];
@@ -27,13 +27,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     // ACTUALIZAR PROVEEDOR
     if (isset($_POST['accion']) && $_POST['accion'] === 'actualizar') {
-        $resultado = ProveedorController::actualizarProveedor(
+        $resultado = ProveedorController::actualizarProv(
             intval($_POST['id']),
-            trim($_POST['fechaProveedor']),
-            trim($_POST['proveedor']),
-            trim($_POST['estado']),
-            trim($_POST['detalles']),
-            trim($_POST['total'])
+            trim($_POST['nombreEmpresa']),
+            trim($_POST['contacto']),
+            trim($_POST['telefono']),
+            trim($_POST['email']),
+            trim($_POST['direccion'])
         );
         
         $mensaje = $resultado['mensaje'];
@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     // ELIMINAR PROVEEDOR
     if (isset($_POST['accion']) && $_POST['accion'] === 'eliminar') {
-        $resultado = ProveedorController::eliminarProveedor(intval($_POST['id']));
+        $resultado = ProveedorController::eliminarProv(intval($_POST['id']));
         
         $mensaje = $resultado['mensaje'];
         $tipoMensaje = $resultado['tipo'];
@@ -52,11 +52,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // ========== OBTENER PROVEEDOR PARA EDITAR ==========
 $proveedorEditar = null;
 if (isset($_GET['editar'])) {
-    $proveedorEditar = ProveedorController::buscarProveedorPorId(intval($_GET['editar']));
+    $proveedorEditar = ProveedorController::buscarProvPorId(intval($_GET['editar']));
 }
 
 // ========== INCLUIR VISTAS ==========
-$titulo = "Gestión de Proveedors";
+$titulo = "Gestión de Proveedores";
 $paginaActual = "proveedors";
 include 'includes/header.php';
 

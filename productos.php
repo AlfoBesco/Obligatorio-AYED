@@ -72,10 +72,10 @@ if (!empty($mensaje)): ?>
 <?php endif;
 
 // Mostrar formulario
-include 'vistas/productos_formulario.php';
+include 'vistas/formulario_productos.php';
 
 // Mostrar lista
-include 'vistas/productos_listar.php';
+include 'vistas/listar_productos.php';
 
 // Footer
 include 'includes/footer.php';

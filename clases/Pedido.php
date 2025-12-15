@@ -1,85 +1,65 @@
 <?php
 
-class Pedido {
+class Pedido
+{
     private $id;
-    private $fechaPedido;
-    private $proveedor;
+    private $fecha;
     private $estado;
-    private $detalles;
-    private $total;
+    private $detalles = [];
 
-    public function __construct($id, $fechaPedido, $proveedor, $estado, $detalles, $total) {
+    public function __construct($id)
+    {
         $this->id = $id;
-        $this->fechaPedido = $fechaPedido;
-        $this->proveedor = $proveedor;
-        $this->estado = $estado;
-        $this->detalles = $detalles;
-        $this->total = $total;
+        $this->fecha = date("Y-m-d");
+        $this->estado = "pendiente";
     }
 
-    public function getId() { 
-        return $this->id; 
+    public function getId()
+    {
+        return $this->id;
     }
 
-    public function getFechaPedido() { 
-        return $this->fechaPedido; 
+    public function getEstado()
+    {
+        return $this->estado;
     }
 
-    public function getProveedor() { 
-        return $this->proveedor; 
+    public function getDetalles()
+    {
+        return $this->detalles;
     }
 
-    public function getEstado() { 
-        return $this->estado; 
+    public function agregarDetalle($detalle)
+    {
+        $this->detalles[] = $detalle;
     }
 
-    public function getDetalles() { 
-        return $this->detalles; 
+    public function eliminarDetalle($detalleId)
+    {
+        foreach ($this->detalles as $i => $d) {
+            if ($d->getId() == $detalleId) {
+                unset($this->detalles[$i]);
+                $this->detalles = array_values($this->detalles);
+                return;
+            }
+        }
     }
 
-    public function getTotal() { 
-        return $this->total; 
-    }
-    
-    public function setId($id){
-        $this->id = $id;
-    }
-
-    public function setFechaPedido($fechaPedido){
-        $this->fechaPedido = $fechaPedido;
+    public function cancelarPedido()
+    {
+        if ($this->estado === "pendiente") {
+            $this->estado = "cancelado";
+            return true;
+        }
+        return false;
     }
 
-    public function setProveedor($proveedor){
-        $this->proveedor = $proveedor;
-    }
-
-    public function setEstado($estado){
-        $this->estado = $estado;
-    }
-
-    public function setDetalles($detalles){
-        $this->detalles = $detalles;
-    }
-
-    public function setTotal($total){
-        $this->total = $total;
-    }
-
-
-    public function cambiarEstado($estado) {
-        $this->estado = $estado;
-    }
-
-
-    public function toArray() {
-        return [
-            'id' => $this->id,
-            'fechaPedido' => $this->fechaPedido,
-            'proveedor' => $this->proveedor,
-            'estado' => $this->estado,
-            'detalles' => $this->detalles,
-            'total' => $this->total
-        ];
+    public function entregarPedido()
+    {
+        if ($this->estado === "pendiente") {
+            $this->estado = "entregado";
+            return true;
+        }
+        return false;
     }
 }
-?>

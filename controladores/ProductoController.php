@@ -1,10 +1,15 @@
 <?php
 
-class ProductoController {
-    
-    public static function crearProd($id, $nombre, $descripcion, $precio, $categoria, $proveedor, $fechaRegistro, $activo) {
-        // Validaciones
-        if (empty($nombre) || empty($descripcion) || empty($precio) || empty($categoria) || empty($proveedor) || empty($fechaRegistro) || empty($activo)) {
+class ProductoController
+{
+
+    public static function crearProd($nombre, $descripcion, $precio, $categoriaId, $proveedorId, $fechaRegistro, $activo)
+    {
+        // Validaciones básicas
+        if (
+            empty($nombre) || empty($descripcion) || empty($precio) ||
+            empty($categoriaId) || empty($proveedorId) || empty($fechaRegistro)
+        ) {
             return [
                 'exito' => false,
                 'mensaje' => 'Todos los campos son obligatorios.',
@@ -12,8 +17,6 @@ class ProductoController {
             ];
         }
 
-        $producto = $_SESSION['productos'][$id];
-        
         if (!is_numeric($precio) || $precio <= 0) {
             return [
                 'exito' => false,
@@ -23,8 +26,8 @@ class ProductoController {
         }
 
         // Buscar categoría y proveedor
-        $categoria = CategoriaController::buscarCatPorId($producto->getCategoria()->getId());
-        $proveedor = ProveedorController::buscarProvPorId($producto->getProveedor()->getId());
+        $categoria = CategoriaController::buscarCatPorId($categoriaId);
+        $proveedor = ProveedorController::buscarProvPorId($proveedorId);
 
         if (!$categoria) {
             return [
@@ -42,20 +45,33 @@ class ProductoController {
             ];
         }
 
+        // Generar ID
         $_SESSION['ultimo_idProd']++;
-        $nuevoIdProd = $_SESSION['ultimo_idProd'];
-        $nuevoProducto = new Producto($nuevoIdProd, $nombre, $descripcion, $precio, $categoria, $proveedor, $fechaRegistro, $activo);
-        $_SESSION['productos'][$nuevoIdProd] = $nuevoProducto;
-        
+        $nuevoId = $_SESSION['ultimo_idProd'];
+
+        // Crear producto
+        $nuevoProducto = new Producto(
+            $nuevoId,
+            $nombre,
+            $descripcion,
+            $precio,
+            $categoria,
+            $proveedor,
+            $fechaRegistro,
+            $activo
+        );
+
+        $_SESSION['productos'][$nuevoId] = $nuevoProducto;
+
         return [
             'exito' => true,
-            'mensaje' => 'Producto creado exitosamente: ' . $nuevoProducto->getNombre(),
-            'tipo' => 'success',
-            'producto' => $nuevoProducto
+            'mensaje' => 'Producto creado exitosamente',
+            'tipo' => 'success'
         ];
     }
-    
-    public static function actualizarProd($id, $nombre, $descripcion, $precio, $categoria, $proveedor, $fechaRegistro, $activo) {
+
+    public static function actualizarProd($id, $nombre, $descripcion, $precio, $categoria, $proveedor, $fechaRegistro, $activo)
+    {
         if (!isset($_SESSION['productos'][$id])) {
             return [
                 'exito' => false,
@@ -65,7 +81,7 @@ class ProductoController {
         }
 
         $producto = $_SESSION['productos'][$id];
-        
+
         if (empty($nombre) || empty($descripcion) || empty($precio) || empty($categoria) || empty($proveedor) || empty($fechaRegistro) || empty($activo)) {
             return [
                 'exito' => false,
@@ -101,7 +117,7 @@ class ProductoController {
             ];
         }
 
-        
+
         $producto->setNombre($nombre);
         $producto->setDescripcion($descripcion);
         $producto->setPrecio($precio);
@@ -109,7 +125,7 @@ class ProductoController {
         $producto->setProveedor($proveedor);
         $producto->setFechaRegistro($fechaRegistro);
         $producto->setActivo($activo);
-        
+
         return [
             'exito' => true,
             'mensaje' => 'Producto actualizado exitosamente: ' . $producto->getNombre(),
@@ -117,8 +133,9 @@ class ProductoController {
             'producto' => $producto
         ];
     }
-    
-    public static function eliminarProd($id) {
+
+    public static function eliminarProd($id)
+    {
         if (!isset($_SESSION['productos'][$id])) {
             return [
                 'exito' => false,
@@ -126,7 +143,7 @@ class ProductoController {
                 'tipo' => 'danger'
             ];
         }
-        
+
         $producto = $_SESSION['productos'][$id];
         $categoria = $producto->getCategoria();
 
@@ -139,19 +156,22 @@ class ProductoController {
             'tipo' => 'warning'
         ];
     }
-    
-    public static function listarTodosProd() {
+
+    public static function listarTodosProd()
+    {
         return $_SESSION['productos'];
     }
-    
-    public static function buscarProdPorId($id) {
+
+    public static function buscarProdPorId($id)
+    {
         return isset($_SESSION['productos'][$id]) ? $_SESSION['productos'][$id] : null;
     }
-    
-    public static function buscarProdPorNombre($termino) {
+
+    public static function buscarProdPorNombre($termino)
+    {
         $resultados = [];
         $termino = strtolower($termino);
-        
+
         foreach ($_SESSION['productos'] as $producto) {
             $nombre = strtolower($producto->getNombre());
             if (strpos($nombre, $termino) !== false) {
@@ -160,10 +180,11 @@ class ProductoController {
         }
         return $resultados;
     }
-    public static function buscarProdPorCategoria($termino) {
+    public static function buscarProdPorCategoria($termino)
+    {
         $resultados = [];
         $termino = strtolower($termino);
-        
+
         foreach ($_SESSION['productos'] as $producto) {
             $categoria = strtolower($producto->getCategoria());
             if (strpos($categoria, $termino) !== false) {
@@ -172,7 +193,8 @@ class ProductoController {
         }
         return $resultados;
     }
-    public static function buscarProdPorProveedor($termino) {
+    public static function buscarProdPorProveedor($termino)
+    {
         $resultados = [];
         $termino = strtolower($termino);
 
@@ -185,12 +207,14 @@ class ProductoController {
         return $resultados;
     }
 
-    
-    public static function contarTotalProd() {
+
+    public static function contarTotalProd()
+    {
         return count($_SESSION['productos']);
     }
 
-    public function aplicarDescuento(){
+    public function aplicarDescuento()
+    {
 
         $id = $_POST['id'];
         $porcentaje = $_POST['porcentaje'];
@@ -224,7 +248,8 @@ class ProductoController {
         ];
     }
 
-    public static function cambiarCategoria($id, $nuevaCategoriaId) {
+    public static function cambiarCategoria($id, $nuevaCategoriaId)
+    {
 
         // existe el producto?
         if (!isset($_SESSION['productos'][$id])) {
@@ -256,7 +281,4 @@ class ProductoController {
             'producto' => $producto
         ];
     }
-
-
 }
-?>

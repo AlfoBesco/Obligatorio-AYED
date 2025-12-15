@@ -10,40 +10,36 @@ $tipoMensaje = "";
 
 // ========== PROCESAR ACCIONES ==========
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    
+
     // CREAR CATEGORIA
     if (isset($_POST['accion']) && $_POST['accion'] === 'crear') {
         $resultado = CategoriaController::crearCat(
             trim($_POST['nombre']),
             trim($_POST['descripcion']),
-            trim($_POST['categoriaPadre']),
-            trim($_POST['subCategorias']),
-            trim($_POST['nivel'])
+            trim($_POST['categoriaPadre'])
         );
-        
+
         $mensaje = $resultado['mensaje'];
         $tipoMensaje = $resultado['tipo'];
     }
-    
+
     // ACTUALIZAR CATEGORIA
     if (isset($_POST['accion']) && $_POST['accion'] === 'actualizar') {
         $resultado = CategoriaController::actualizarCat(
             intval($_POST['id']),
             trim($_POST['nombre']),
             trim($_POST['descripcion']),
-            trim($_POST['categoriaPadre']),
-            trim($_POST['subCategorias']),
-            trim($_POST['nivel'])
+            trim($_POST['categoriaPadre'])
         );
-        
+
         $mensaje = $resultado['mensaje'];
         $tipoMensaje = $resultado['tipo'];
     }
-    
+
     // ELIMINAR CATEGORIA
     if (isset($_POST['accion']) && $_POST['accion'] === 'eliminar') {
         $resultado = CategoriaController::eliminarCat(intval($_POST['id']));
-        
+
         $mensaje = $resultado['mensaje'];
         $tipoMensaje = $resultado['tipo'];
     }
