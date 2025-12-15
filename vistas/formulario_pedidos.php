@@ -16,7 +16,7 @@ $pedidoEditar = isset($pedidoEditar) ? $pedidoEditar : null;
             <div class="form-group">
                 <label for="fechaPedido">Fecha *</label>
                 <input type="date" id="fechaPedido" name="fechaPedido"
-                    value="<?= $pedidoEditar ? htmlspecialchars($pedidoEditar->getFechaPedido()) : ''; ?>" required>
+                       value="<?= $pedidoEditar ? htmlspecialchars($pedidoEditar->getFechaPedido()) : ''; ?>" required>
             </div>
             <div class="form-group">
                 <label for="proveedor">Proveedor *</label>
@@ -33,9 +33,9 @@ $pedidoEditar = isset($pedidoEditar) ? $pedidoEditar : null;
             <div class="form-group">
                 <label for="estado">Estado *</label>
                 <input type="text" id="estado" name="estado"
-                    value="<?= $pedidoEditar ? htmlspecialchars($pedidoEditar->getEstado()) : 'pendiente'; ?>" required>
+                       value="<?= $pedidoEditar ? htmlspecialchars($pedidoEditar->getEstado()) : ''; ?>" required>
             </div>
         </div>
         <button type="submit" class="btn btn-primary"><?= $pedidoEditar ? 'Actualizar' : 'Crear'; ?></button>
     </form>
-    </
+</

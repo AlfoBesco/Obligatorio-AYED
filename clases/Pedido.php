@@ -84,7 +84,7 @@ class Pedido
     {
         $this->total = 0;
         foreach ($this->detalles as $detalle) {
-            $this->total += $detalle->getCantidad() * $detalle->getPrecio();
+            $this->total += $detalle->getCantidad()* $detalle->getPrecioUnitario();
         }
     }
 }
