@@ -2,7 +2,8 @@
 
 class CategoriaController
 {
-    private static function inicializar() {
+    private static function inicializar()
+    {
         if (!isset($_SESSION['categorias'])) {
             $_SESSION['categorias'] = [];
             $_SESSION['ultimo_id_cat'] = 0;
@@ -14,10 +15,10 @@ class CategoriaController
         self::inicializar();
 
         // Validaciones
-        if (empty($nombre) || empty($descripcion) || empty($nivel)) {
+        if (empty($nombre) || empty($descripcion)) {
             return [
                 'exito' => false,
-                'mensaje' => 'Los campos Nombre, Descripcion y nivel son obligatorios.',
+                'mensaje' => 'Los campos Nombre y Descripcion son obligatorios.',
                 'tipo' => 'danger'
             ];
         }
@@ -27,24 +28,30 @@ class CategoriaController
 
         $padre = null;
 
-        if ($categoriaPadre !== null) {
+        // Solo validar si se pasó un valor no vacío
+        if (!empty($categoriaPadre)) {
             if (!isset($_SESSION['categorias'][$categoriaPadre])) {
                 return [
                     'exito' => false,
-                    'mensaje' => 'Categoria padre invalida.',
+                    'mensaje' => 'Categoría padre inválida.',
                     'tipo' => 'danger'
                 ];
             }
             $padre = $_SESSION['categorias'][$categoriaPadre];
         }
 
+        $nuevaCategoria = new Categoria($nuevoId, $nombre, $descripcion, $padre);
 
-        $nuevaCategoria = new Categoria($nuevoId, $nombre, $descripcion, $categoriaPadre);
         $_SESSION['categorias'][$nuevoId] = $nuevaCategoria;
+
+        // Si tiene padre, agregar la subcategoría
+        if ($padre) {
+            $padre->agregarSubcategoria($nuevaCategoria);
+        }
 
         return [
             'exito' => true,
-            'mensaje' => 'Categoria creada exitosamente: ' . $nuevaCategoria->getNombre(),
+            'mensaje' => 'Categoría creada exitosamente: ' . $nuevaCategoria->getNombre(),
             'tipo' => 'success',
             'categoria' => $nuevaCategoria
         ];

@@ -6,7 +6,7 @@ $categoriaEditar = isset($categoriaEditar) ? $categoriaEditar : null;
 <div class="form-section">
     <h2><?php echo $categoriaEditar ? 'Editar Categoria' : 'Agregar Nueva Categoria'; ?></h2>
 
-    <form method="POST" action="index.php">
+    <form method="POST" action="categorias.php">
         <input type="hidden" name="accion" value="<?php echo $categoriaEditar ? 'actualizar' : 'crear'; ?>">
         <?php if ($categoriaEditar): ?>
             <input type="hidden" name="id" value="<?php echo $categoriaEditar->getId(); ?>">
@@ -32,11 +32,19 @@ $categoriaEditar = isset($categoriaEditar) ? $categoriaEditar : null;
             </div>
 
             <div class="form-group">
-                <label for="categoriaPadre">Categoria Padre</label>
-                <input type="text"
-                    id="categoriaPadre"
-                    name="categoriaPadre"
-                    value="<?php echo $categoriaEditar ? htmlspecialchars($categoriaEditar->getCategoriaPadre()) : ''; ?>">
+                <label for="categoriaPadre">Categoría Padre</label>
+                <select id="categoriaPadre" name="categoriaPadre">
+                    <option value="">-- Ninguna (categoría raíz) --</option>
+                    <?php foreach ($_SESSION['categorias'] as $cat): ?>
+                        <?php if ($cat->getCategoriaPadre() === null): // solo categorías raíz 
+                        ?>
+                            <option value="<?= $cat->getId(); ?>"
+                                <?= ($categoriaEditar && $categoriaEditar->getCategoriaPadre() && $categoriaEditar->getCategoriaPadre()->getId() == $cat->getId()) ? 'selected' : '' ?>>
+                                <?= htmlspecialchars($cat->getNombre()); ?>
+                            </option>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </select>
             </div>
 
             <div style="margin-top: 32px;">

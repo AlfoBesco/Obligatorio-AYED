@@ -1,6 +1,6 @@
 <?php
 // Este archivo muestra la tabla de productos
-$productos = $controller->listarPedidos();
+$productos = ProductoController::listarTodosProd();
 
 ?>
 
@@ -39,10 +39,10 @@ $productos = $controller->listarPedidos();
                             <td><?php echo htmlspecialchars($producto->getNombre()); ?></td>
                             <td><?php echo htmlspecialchars($producto->getDescripcion()); ?></td>
                             <td><?php echo htmlspecialchars($producto->getPrecio()); ?></td>
-                            <td><?php echo htmlspecialchars($producto->getCategoria()); ?></td>
-                            <td><?php echo htmlspecialchars($producto->getProveedor()); ?></td>
+                            <td><?php echo htmlspecialchars($producto->getCategoria()->getNombre()); ?></td>
+                            <td><?php echo htmlspecialchars($producto->getProveedor()->getNombreEmpresa()); ?></td>
                             <td><?php echo date('d/m/Y', strtotime($producto->getFechaRegistro())); ?></td>
-                            <td><?php echo htmlspecialchars($producto->getActivo()); ?></td>
+                            <td><?php echo $producto->isActivo() ? 'Sí' : 'No'; ?></td>
                             <td>
                                 <div class="actions">
                                     <a href="productos.php?editar=<?php echo $producto->getId(); ?>" class="btn btn-warning btn-sm">

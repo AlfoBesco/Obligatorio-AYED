@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $resultado = CategoriaController::crearCat(
             trim($_POST['nombre']),
             trim($_POST['descripcion']),
-            trim($_POST['categoriaPadre'])
+            !empty($_POST['categoriaPadre']) ? intval($_POST['categoriaPadre']) : null
         );
 
         $mensaje = $resultado['mensaje'];

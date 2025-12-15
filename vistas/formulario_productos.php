@@ -21,7 +21,6 @@ $productoEditar = isset($productoEditar) ? $productoEditar : null;
                     value="<?php echo $productoEditar ? htmlspecialchars($productoEditar->getNombre()) : ''; ?>"
                     required>
             </div>
-
             <div class="form-group">
                 <label for="descripcion">Descripción *</label>
                 <input type="text"
@@ -30,7 +29,6 @@ $productoEditar = isset($productoEditar) ? $productoEditar : null;
                     value="<?php echo $productoEditar ? htmlspecialchars($productoEditar->getDescripcion()) : ''; ?>"
                     required>
             </div>
-
             <div class="form-group">
                 <label for="precio">Precio *</label>
                 <input type="number"
@@ -38,7 +36,6 @@ $productoEditar = isset($productoEditar) ? $productoEditar : null;
                     name="precio"
                     value="<?php echo $productoEditar ? htmlspecialchars($productoEditar->getPrecio()) : ''; ?>">
             </div>
-
             <div class="form-group">
                 <label for="categoria">Categoría *</label>
                 <select id="categoria" name="categoria" required>
@@ -52,7 +49,6 @@ $productoEditar = isset($productoEditar) ? $productoEditar : null;
                     <?php endforeach; ?>
                 </select>
             </div>
-
             <div class="form-group">
                 <label for="proveedor">Proveedor *</label>
                 <select id="proveedor" name="proveedor" required>
@@ -74,7 +70,12 @@ $productoEditar = isset($productoEditar) ? $productoEditar : null;
                     name="fechaRegistro"
                     value="<?php echo $productoEditar ? htmlspecialchars($productoEditar->getFechaRegistro()) : ''; ?>">
             </div>
-
+            <div class="form-group">
+                <label for="activo">Activo *</label>
+                <select id="activo" name="activo" required>
+                    <option value="1" <?php echo ($productoEditar && $productoEditar->isActivo()) ? 'selected' : ''; ?>>Sí</option>
+                    <option value="0" <?php echo ($productoEditar && !$productoEditar->isActivo()) ? 'selected' : ''; ?>>No</option>
+                </select>
             <div style="margin-top: 20px;">
                 <button type="submit" class="btn btn-primary">
                     <?php echo $productoEditar ? 'Actualizar Producto' : 'Crear Producto'; ?>
@@ -84,5 +85,6 @@ $productoEditar = isset($productoEditar) ? $productoEditar : null;
                     <a href="index.php" class="btn btn-secondary">Cancelar</a>
                 <?php endif; ?>
             </div>
+        </div>
     </form>
 </div>

@@ -71,7 +71,6 @@ class Categoria
         }
     }
 
-
     public function agregarSubcategoria($categoria)
     {
         $this->subCategorias[] = $categoria;
@@ -92,7 +91,6 @@ class Categoria
         return false;
     }
 
-
     public function buscarPorId($id)
     {
         if ($this->id == $id) return $this;
@@ -104,7 +102,6 @@ class Categoria
         }
         return null;
     }
-
 
     public function mostrarArbol($indent = "")
     {
@@ -212,7 +209,6 @@ class Categoria
         }
         return implode($separador, $ruta);
     }
-
 
     public function toArray()
     {
