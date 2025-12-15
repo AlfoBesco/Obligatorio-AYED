@@ -153,4 +153,9 @@ class ProveedorController
     {
         return count($_SESSION['proveedores']);
     }
+
+    public static function buscarPorId($id)
+    {
+        return isset($_SESSION['proveedores'][$id]) ? $_SESSION['proveedores'][$id] : null;
+    }
 }

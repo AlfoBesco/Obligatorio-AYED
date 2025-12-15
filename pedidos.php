@@ -38,9 +38,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $tipoMensaje = $resultado['tipo'];
     }
 
-    if (isset($_POST['accion']) && $_POST['accion'] === 'agregarDetalle') {
+
+    if (isset($_POST['accion']) && $_POST['accion'] === 'agregarDetalles') {
         $controller = new PedidoController();
-        $controller->agregarDetalle();
+        $controller->agregarDetalles();
         exit;
     }
 }

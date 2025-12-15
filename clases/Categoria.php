@@ -242,9 +242,9 @@ class Categoria
         return $html;
     }
 
-    // Alias para compatibilidad con código antiguo
-    public function getNombreCompleto()
-    {
-        return $this->getRutaCompleta();
-    }
+    // // Alias para compatibilidad con código antiguo
+    // public function getNombreCompleto()
+    // {
+    //     return $this->getRutaCompleta();
+    // }
 }

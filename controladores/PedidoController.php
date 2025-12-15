@@ -2,6 +2,7 @@
 <?php
 require_once 'clases/Pedido.php';
 require_once 'clases/DetallePedido.php';
+require_once 'controladores/StockController.php';
 
 class PedidoController
 {
@@ -61,16 +62,55 @@ class PedidoController
         return $_SESSION['pedidos'] ?? [];
     }
 
+
     public function agregarDetalle()
     {
         $pedido = $this->buscarPedidoPorId($_POST['pedidoId']);
         $producto = $this->buscarProductoPorId($_POST['productoId']);
+        $cantidadSolicitada = intval($_POST['cantidad']);
+
         if (!$pedido || !$producto) return;
 
-        $detalle = new DetallePedido(count($pedido->getDetalles()) + 1, $pedido, $producto, intval($_POST['cantidad']), $producto->getPrecio());
+        // Crear el detalle del pedido
+        $detalle = new DetallePedido(count($pedido->getDetalles()) + 1, $pedido, $producto, $cantidadSolicitada, $producto->getPrecio());
         $pedido->agregarDetalle($detalle);
+
+        // Actualizar el stock del producto
+        $resultadoStock = StockController::descontarStock($producto->getId(), $cantidadSolicitada);
+
+        // Opcional: mostrar mensaje si el stock queda bajo el mínimo
+        if ($resultadoStock['tipo'] === 'danger') {
+            $_SESSION['mensaje_stock'] = $resultadoStock['mensaje'];
+        }
+
         header("Location: pedidos.php?editar=" . $pedido->getId());
     }
+
+
+    public function agregarDetalles()
+    {
+        $pedido = $this->buscarPedidoPorId($_POST['pedidoId']);
+        if (!$pedido) return;
+
+        $productos = $_POST['productoId'];
+        $cantidades = $_POST['cantidad'];
+
+        foreach ($productos as $index => $productoId) {
+            $producto = $this->buscarProductoPorId($productoId);
+            $cantidadSolicitada = intval($cantidades[$index]);
+
+            if ($producto && $cantidadSolicitada > 0) {
+                $detalle = new DetallePedido(count($pedido->getDetalles()) + 1, $pedido, $producto, $cantidadSolicitada, $producto->getPrecio());
+                $pedido->agregarDetalle($detalle);
+
+                // Actualizar stock
+                StockController::descontarStock($producto->getId(), $cantidadSolicitada);
+            }
+        }
+
+        header("Location: pedidos.php?editar=" . $pedido->getId());
+    }
+
 
     private function buscarProductoPorId($id)
     {

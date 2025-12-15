@@ -1,6 +1,9 @@
 <?php
-require_once 'controladores/ProveedorController.php';
-require_once 'controladores/ProductoController.php';
+require_once '../../includes/sesion.php';
+require_once '../../includes/header.php';
+require_once '../../controladores/ProveedorController.php';
+require_once '../../controladores/ProductoController.php';
+
 
 // Obtener lista de proveedores
 $proveedores = ProveedorController::listarTodosProv();
@@ -17,39 +20,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['proveedor'])) {
 }
 ?>
 
-<div class="report-section" style="margin-top:30px;">
+<div class="form-section">
     <h2>Reporte de Productos por Proveedor</h2>
 
-    <!-- Formulario para seleccionar proveedor -->
-    <form method="POST" style="margin-bottom:20px;">
-        <label for="proveedor">Selecciona un proveedor:</label>
-        <select name="proveedor" id="proveedor" required>
-            <option value="">-- Elige un proveedor --</option>
-            <?php foreach ($proveedores as $prov): ?>
-                <option value="<?= $prov->getId(); ?>" <?= ($proveedorSeleccionado && $proveedorSeleccionado->getId() == $prov->getId()) ? 'selected' : ''; ?>>
-                    <?= htmlspecialchars($prov->getNombreEmpresa()); ?>
-                </option>
-            <?php endforeach; ?>
-        </select>
-        <button type="submit" class="btn btn-primary">Buscar</button>
+    <form method="POST" class="form-row">
+        <div class="form-group">
+            <label for="proveedor">Proveedor</label>
+            <select name="proveedor" id="proveedor" required>
+                <option value="">-- Seleccione proveedor --</option>
+                <?php foreach ($proveedores as $prov): ?>
+                    <option value="<?= $prov->getId(); ?>"
+                        <?= ($proveedorSeleccionado && $proveedorSeleccionado->getId() == $prov->getId()) ? 'selected' : '' ?>>
+                        <?= htmlspecialchars($prov->getNombreEmpresa()); ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+
+        <div style="margin-top: 32px;">
+            <button type="submit" class="btn btn-primary">Buscar</button>
+        </div>
     </form>
 
-    <!-- Mostrar resultados -->
+
     <?php if ($proveedorSeleccionado): ?>
         <h3>Proveedor: <?= htmlspecialchars($proveedorSeleccionado->getNombreEmpresa()); ?></h3>
-        <p><strong>Contacto:</strong> <?= htmlspecialchars($proveedorSeleccionado->getContacto()); ?> |
-            <strong>Email:</strong> <?= htmlspecialchars($proveedorSeleccionado->getEmail()); ?>
-        </p>
 
         <?php if (empty($productos)): ?>
-            <div class="alert alert-warning">Este proveedor no tiene productos registrados.</div>
+            <div class="alert alert-warning">
+                Este proveedor no tiene productos registrados.
+            </div>
         <?php else: ?>
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th>ID Producto</th>
+                        <th>ID</th>
                         <th>Nombre</th>
-                        <th>Descripción</th>
                         <th>Precio</th>
                         <th>Stock</th>
                     </tr>
@@ -57,11 +63,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['proveedor'])) {
                 <tbody>
                     <?php foreach ($productos as $producto): ?>
                         <tr>
-                            <td>#<?= $producto->getId(); ?></td>
+                            <td><?= $producto->getId(); ?></td>
                             <td><?= htmlspecialchars($producto->getNombre()); ?></td>
-                            <td><?= htmlspecialchars($producto->getDescripcion()); ?></td>
-                            <td><?= number_format($producto->getPrecio(), 2, ',', '.'); ?> €</td>
-                            <td><?= intval($producto->getStock()); ?></td>
+                            <td><?= number_format($producto->getPrecio(), 2, ',', '.'); ?></td>
+                            <td><?= $producto->getStock(); ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
@@ -69,3 +74,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['proveedor'])) {
         <?php endif; ?>
     <?php endif; ?>
 </div>
+<?php require_once '../../includes/footer.php'; ?>

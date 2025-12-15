@@ -271,18 +271,24 @@ class ProductoController
             'producto' => $producto
         ];
     }
-    
-    public static function buscarProdPorProveedor($termino)
-    {
-        $resultados = [];
-        $termino = strtolower($termino);
 
+    public static function listarPorProveedor($idProveedor)
+    {
+        self::inicializar();
+        $productosProveedor = [];
+
+        // Validar que existan productos
+        if (!isset($_SESSION['productos']) || empty($_SESSION['productos'])) {
+            return $productosProveedor;
+        }
+
+        // Filtrar productos por proveedor
         foreach ($_SESSION['productos'] as $producto) {
-            $proveedor = strtolower($producto->getProveedor());
-            if (strpos($proveedor, $termino) !== false) {
-                $resultados[] = $producto;
+            if ($producto->getProveedor()->getId() == $idProveedor) {
+                $productosProveedor[] = $producto;
             }
         }
-        return $resultados;
+
+        return $productosProveedor;
     }
 }
