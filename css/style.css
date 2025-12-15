@@ -7,7 +7,7 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #667eea;
+    background: #b147a5;
     min-height: 100vh;
     padding-bottom: 60px;
 }
@@ -34,7 +34,7 @@ body {
     display: flex;
     align-items: center;
     text-decoration: none;
-    color: #667eea;
+    color: #b147a5;
     font-size: 1.5em;
     font-weight: bold;
     padding: 15px 0;
@@ -64,13 +64,13 @@ body {
 }
 
 .nav-item a:hover {
-    color: #667eea;
+    color: #ca26ac;
     background: #f8f9fa;
 }
 
 .nav-item.active a {
-    color: #667eea;
-    border-bottom-color: #667eea;
+    color: #b147a5;
+    border-bottom-color: #ca26ac;
 }
 
 .nav-item a.disabled {
@@ -113,13 +113,13 @@ body {
 
 .welcome-header h2 {
     font-size: 2.5em;
-    color: #667eea;
+    color: #b147a5;
     margin-bottom: 10px;
 }
 
 .welcome-header p {
     font-size: 1.2em;
-    color: #666;
+    color: #000000;
 }
 
 .features-grid {
@@ -184,8 +184,8 @@ body {
 
 .menu-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
-    border-color: #667eea;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    border-color: #000000;
 }
 
 .menu-card-disabled {
@@ -219,7 +219,7 @@ body {
 
 .card-button {
     padding: 12px 20px;
-    background: #667eea;
+    background: #b147a5;
     color: white;
     border-radius: 6px;
     text-align: center;
@@ -245,7 +245,7 @@ body {
 }
 
 .tech-info h3 {
-    color: #667eea;
+    color: #000000;
     margin-bottom: 20px;
 }
 
@@ -260,8 +260,8 @@ body {
     background: white;
     padding: 8px 16px;
     border-radius: 20px;
-    border: 2px solid #667eea;
-    color: #667eea;
+    border: 2px solid #ca26ac;
+    color: #ca26ac;
     font-weight: 600;
     font-size: 0.9em;
 }
@@ -274,7 +274,7 @@ body {
 }
 
 .breadcrumb a {
-    color: #667eea;
+    color: #ca26ac;
     text-decoration: none;
 }
 
@@ -286,7 +286,7 @@ body {
 .page-header {
     margin-bottom: 30px;
     padding-bottom: 20px;
-    border-bottom: 3px solid #667eea;
+    border-bottom: 3px solid #ca26ac;
 }
 
 .page-header h1 {
@@ -354,7 +354,7 @@ body {
 }
 
 .form-section h2 {
-    color: #667eea;
+    color: #ca26ac;
     margin-bottom: 25px;
     font-size: 1.4em;
 }
@@ -386,7 +386,7 @@ body {
 .form-group textarea:focus,
 .form-group select:focus {
     outline: none;
-    border-color: #667eea;
+    border-color: #ca26ac;
     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
@@ -421,7 +421,7 @@ body {
 }
 
 .btn-primary {
-    background: #667eea;
+    background: #ca26ac;
     color: white;
 }
 
@@ -452,12 +452,12 @@ body {
 }
 
 .btn-warning {
-    background: #ffc107;
+    background: #2794dc;
     color: #333;
 }
 
 .btn-warning:hover {
-    background: #e0a800;
+    background: #928a8a;
     transform: translateY(-2px);
 }
 
@@ -476,7 +476,7 @@ body {
 }
 
 .section-header h2 {
-    color: #667eea;
+    color: #ca26ac;
     font-size: 1.5em;
 }
 
@@ -494,7 +494,7 @@ table {
 }
 
 thead {
-    background: #667eea;
+    background: #ca26ac;
     color: white;
 }
 
@@ -579,7 +579,7 @@ tbody tr:last-child {
 
 .badge-danger {
     background: #f8d7da;
-    color: #842029;
+    color: #97252f;
 }
 
 .badge-secondary {
@@ -593,11 +593,11 @@ tbody tr:last-child {
     padding: 25px;
     background: #f8f9fa;
     border-radius: 8px;
-    border-left: 4px solid #667eea;
+    border-left: 4px solid #ca26ac;
 }
 
 .info-box h3 {
-    color: #667eea;
+    color: #ca26ac;
     margin-bottom: 15px;
 }
 
@@ -789,11 +789,31 @@ html {
 
 /* ========== SELECCIÓN DE TEXTO ========== */
 ::selection {
-    background: #667eea;
+    background: #ca26ac;
     color: white;
 }
 
 ::-moz-selection {
     background: #b91f3c;
     color: white;
+}
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    background: #fff;
+    border: 1px solid #ccc;
+    list-style: none;
+    padding: 10px;
+    margin: 0;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+}
+
+.nav-item.dropdown:hover > .dropdown-menu {
+    display: block;
+}
+
+.nav-item.dropdown {
+    position: relative;
 }

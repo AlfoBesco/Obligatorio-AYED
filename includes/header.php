@@ -72,10 +72,6 @@ $paginaActual = isset($paginaActual) ? $paginaActual : 'inicio';
                     </a>
                     <ul class="dropdown-menu">
                         <li><a href="reportes.php">Proveedores</a></li>
-                        <li><a href="reportes_stock.php">Stock</a></li>
-                        <li><a href="reportes_pedido.php">Pedidos</a></li>
-                        <li><a href="reportes_producto.php">Productos</a></li>
-                        <li><a href="reportes_categoria.php">Categorías</a></li>
                     </ul>
                 </li>
             </ul>

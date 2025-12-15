@@ -1,11 +1,5 @@
 <!-- FOOTER INFORMATIVO -->
-<div class="info-box">
-    <h3>Categorias destacadas</h3>
-    <ul>
-        <li><strong>Tecnología</strong></li>
-        <li><strong>Papelería</strong></li>
-    </ul>
-</div>
+
 </div>
 </div>
 
