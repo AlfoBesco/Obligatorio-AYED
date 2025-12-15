@@ -1,7 +1,6 @@
 <div class="welcome-section">
     <div class="welcome-header">
-        <h2>Gestion de categorias de productos</h2>
-        <p>probando</p>
+        <h2>Gestion de categorías de productos</h2>
     </div>
     
     <div class="features-grid">

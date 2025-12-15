@@ -55,7 +55,6 @@ class ProveedorController
 
     public static function actualizarProv($id, $nombreEmpresa, $contacto, $telefono, $email, $direccion)
     {
-
         if (!isset($_SESSION['proveedores'][$id])) {
             return [
                 'exito' => false,
@@ -119,7 +118,6 @@ class ProveedorController
         }
 
         unset($_SESSION['proveedores'][$id]);
-
         return [
             'exito' => true,
             'mensaje' => 'Proveedor eliminado correctamente.',

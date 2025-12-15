@@ -1,6 +1,7 @@
 <?php
 require_once 'includes/sesion.php';
 require_once 'controladores/PedidoController.php';
+require_once 'controladores/ProveedorController.php';
 
 // Manejar cierre de sesión
 if (isset($_POST['cerrarSesion'])) {

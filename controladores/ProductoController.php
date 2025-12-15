@@ -1,10 +1,21 @@
 <?php
 
+require_once __DIR__ . '/../clases/Producto.php';
+
 class ProductoController
 {
+    private static function inicializar()
+    {
+        if (!isset($_SESSION['productos'])) {
+            $_SESSION['productos'] = [];
+            $_SESSION['ultimo_id_prod'] = 0;
+        }
+    }
 
     public static function crearProd($nombre, $descripcion, $precio, $categoriaId, $proveedorId, $fechaRegistro, $activo)
     {
+        self::inicializar();
+
         // Validaciones básicas
         if (
             empty($nombre) || empty($descripcion) || empty($precio) ||
@@ -46,12 +57,12 @@ class ProductoController
         }
 
         // Generar ID
-        $_SESSION['ultimo_idProd']++;
-        $nuevoId = $_SESSION['ultimo_idProd'];
+        $_SESSION['ultimo_id_prod']++;
+        $id = $_SESSION['ultimo_id_prod'];
 
         // Crear producto
-        $nuevoProducto = new Producto(
-            $nuevoId,
+        $producto = new Producto(
+            $id,
             $nombre,
             $descripcion,
             $precio,
@@ -61,7 +72,7 @@ class ProductoController
             $activo
         );
 
-        $_SESSION['productos'][$nuevoId] = $nuevoProducto;
+        $_SESSION['productos'][$id] = $producto;
 
         return [
             'exito' => true,
@@ -79,8 +90,6 @@ class ProductoController
                 'tipo' => 'danger'
             ];
         }
-
-        $producto = $_SESSION['productos'][$id];
 
         if (empty($nombre) || empty($descripcion) || empty($precio) || empty($categoria) || empty($proveedor) || empty($fechaRegistro) || empty($activo)) {
             return [
@@ -117,6 +126,7 @@ class ProductoController
             ];
         }
 
+        $producto = $_SESSION['productos'][$id];
 
         $producto->setNombre($nombre);
         $producto->setDescripcion($descripcion);

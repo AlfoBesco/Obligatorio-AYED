@@ -3,6 +3,8 @@
 // Incluir archivos necesarios
 require_once 'includes/sesion.php';
 require_once 'controladores/ProductoController.php';
+require_once 'controladores/ProveedorController.php';
+require_once 'controladores/CategoriaController.php';
 
 // Manejar cierre de sesión
 if (isset($_POST['cerrarSesion'])) {
@@ -44,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             trim($_POST['categoria']),
             trim($_POST['proveedor']),
             trim($_POST['fechaRegistro']),
-            trim($_POST['activo'])
+            trim($_POST['activox'])
         );
         
         $mensaje = $resultado['mensaje'];

@@ -3,13 +3,15 @@
 class DetallePedido
 {
     private $id;
+    private $pedido;
     private $producto;
     private $cantidad;
     private $precioUnitario;
 
-    public function __construct($id, $producto, $cantidad, $precioUnitario)
+    public function __construct($id, $pedido, $producto, $cantidad, $precioUnitario)
     {
         $this->id = $id;
+        $this->pedido = $pedido;
         $this->producto = $producto;
         $this->cantidad = $cantidad;
         $this->precioUnitario = $precioUnitario;

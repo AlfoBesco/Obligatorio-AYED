@@ -31,7 +31,7 @@ $pedidoEditar = isset($pedidoEditar) ? $pedidoEditar : null;
                     // Mostrar los proveedores cargados en la sesión
                     foreach ($_SESSION['proveedores'] as $proveedor) {
                         $selected = ($pedidoEditar && $pedidoEditar->getProveedor()->getId() == $proveedor->getId()) ? 'selected' : '';
-                        echo "<option value='{$proveedor->getId()}' $selected>" . htmlspecialchars($proveedor->getNombre()) . "</option>";
+                        echo "<option value='{$proveedor->getId()}' $selected>" . htmlspecialchars($proveedor->getNombreEmpresa()) . "</option>";
                     }
                     ?>
                 </select>

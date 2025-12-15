@@ -49,14 +49,13 @@ if (isset($_GET['editar'])) {
     );
 }
 
-$titulo = "CRUD Categorías";
-include 'includes/header.php';
-
 if (!empty($mensaje)): ?>
     <div class="alert alert-<?php echo $tipoMensaje; ?>">
         <?php echo htmlspecialchars($mensaje); ?>
     </div>
 <?php endif;
 
+$titulo = "Gestión de Categorías de Productos";
+include 'includes/header.php';
 include 'vistas/principal.php';
 include 'includes/footer.php';
