@@ -1,5 +1,5 @@
 <?php
-require_once 'sesion.php';
+require_once 'includes/sesion.php';
 // Si no hay sesión iniciada, iniciarla
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -71,7 +71,7 @@ $paginaActual = isset($paginaActual) ? $paginaActual : 'inicio';
                         Reportes ▼
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="vistas/reportes/reportes_proveedor.php">Proveedores</a></li>
+                        <li><a href="reportes.php">Proveedores</a></li>
                         <li><a href="reportes_stock.php">Stock</a></li>
                         <li><a href="reportes_pedido.php">Pedidos</a></li>
                         <li><a href="reportes_producto.php">Productos</a></li>

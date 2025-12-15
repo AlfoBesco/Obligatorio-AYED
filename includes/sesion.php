@@ -4,104 +4,142 @@ require_once __DIR__ . '/../clases/Proveedor.php';
 require_once __DIR__ . '/../clases/Categoria.php';
 require_once __DIR__ . '/../clases/Producto.php';
 require_once __DIR__ . '/../clases/Pedido.php';
+require_once __DIR__ . '/../clases/DetallePedido.php';
 require_once __DIR__ . '/../clases/Stock.php';
 
 session_start();
 
-// 1️⃣ Proveedores
+/* =========================
+   PROVEEDORES (3)
+========================= */
 if (!isset($_SESSION['proveedores'])) {
     $_SESSION['proveedores'] = [];
     $_SESSION['ultimo_id_prov'] = 0;
 
-    $p1 = new Proveedor(1, "Tech Supplies S.A.", "Juan Pérez", "099123456", "contacto@techsupplies.com", "Av. Libertador 1234, Montevideo");
-    $p2 = new Proveedor(2, "Hogar & Deco", "María González", "098765432", "info@hogardeco.com", "Bulevar Artigas 5678, Montevideo");
-    $p3 = new Proveedor(3, "Gadgets Uruguay", "Carlos Rodríguez", "091234567", "ventas@gadgetsuy.com", "21 de Setiembre 9876, Montevideo");
+    $p1 = new Proveedor(++$_SESSION['ultimo_id_prov'], "Tech Supplies S.A.", "Juan Pérez", "099123456", "contacto@techsupplies.com", "Montevideo");
+    $p2 = new Proveedor(++$_SESSION['ultimo_id_prov'], "Hogar & Deco", "María González", "098765432", "info@hogardeco.com", "Canelones");
+    $p3 = new Proveedor(++$_SESSION['ultimo_id_prov'], "Gadgets Uruguay", "Carlos Rodríguez", "091234567", "ventas@gadgetsuy.com", "Maldonado");
 
-    $_SESSION['proveedores'] = [$p1->getId() => $p1, $p2->getId() => $p2, $p3->getId() => $p3];
-    $_SESSION['ultimo_id_prov'] = 3;
+    $_SESSION['proveedores'] = [
+        $p1->getId() => $p1,
+        $p2->getId() => $p2,
+        $p3->getId() => $p3
+    ];
 }
 
-// 2️⃣ Categorías
+/* =========================
+   CATEGORÍAS (ÁRBOL)
+========================= */
 if (!isset($_SESSION['categorias'])) {
     $_SESSION['categorias'] = [];
     $_SESSION['ultimo_id_cat'] = 0;
 
-    $c1 = new Categoria(1, "Electrónica", "Dispositivos y gadgets");
-    $c2 = new Categoria(2, "Computadoras", "PCs, laptops y accesorios");
-    $c3 = new Categoria(3, "Smartphones", "Teléfonos móviles y accesorios");
-    $c4 = new Categoria(4, "Hogar", "Productos para el hogar");
-    $c5 = new Categoria(5, "Muebles", "Muebles y decoración");
-    $c6 = new Categoria(6, "Cocina", "Utensilios y electrodomésticos de cocina");
+    $electronica = new Categoria(++$_SESSION['ultimo_id_cat'], "Electrónica", "Dispositivos electrónicos");
+    $celulares   = new Categoria(++$_SESSION['ultimo_id_cat'], "Celulares", "Teléfonos móviles");
+    $computadoras = new Categoria(++$_SESSION['ultimo_id_cat'], "Computadoras", "PC y notebooks");
+    $laptops     = new Categoria(++$_SESSION['ultimo_id_cat'], "Laptops", "Portátiles");
+    $desktop     = new Categoria(++$_SESSION['ultimo_id_cat'], "Desktop", "Computadoras de escritorio");
+    $audio       = new Categoria(++$_SESSION['ultimo_id_cat'], "Audio", "Equipos de sonido");
 
-    $c1->agregarSubcategoria($c2);
-    $c1->agregarSubcategoria($c3);
-    $c4->agregarSubcategoria($c5);
-    $c4->agregarSubcategoria($c6);
+    $ropa        = new Categoria(++$_SESSION['ultimo_id_cat'], "Ropa", "Indumentaria");
+    $hombre      = new Categoria(++$_SESSION['ultimo_id_cat'], "Hombre", "Ropa masculina");
+    $mujer       = new Categoria(++$_SESSION['ultimo_id_cat'], "Mujer", "Ropa femenina");
 
-    $_SESSION['categorias'] = [$c1->getId() => $c1, $c2->getId() => $c2, $c3->getId() => $c3, $c4->getId() => $c4, $c5->getId() => $c5, $c6->getId() => $c6];
-    $_SESSION['ultimo_id_cat'] = 6;
+    $hogar       = new Categoria(++$_SESSION['ultimo_id_cat'], "Hogar", "Artículos del hogar");
+    $cocina      = new Categoria(++$_SESSION['ultimo_id_cat'], "Cocina", "Utensilios de cocina");
+    $decoracion  = new Categoria(++$_SESSION['ultimo_id_cat'], "Decoración", "Decoración del hogar");
+
+    // Relaciones del árbol
+    $electronica->agregarSubcategoria($celulares);
+    $electronica->agregarSubcategoria($computadoras);
+    $electronica->agregarSubcategoria($audio);
+    $computadoras->agregarSubcategoria($laptops);
+    $computadoras->agregarSubcategoria($desktop);
+
+    $ropa->agregarSubcategoria($hombre);
+    $ropa->agregarSubcategoria($mujer);
+
+    $hogar->agregarSubcategoria($cocina);
+    $hogar->agregarSubcategoria($decoracion);
+
+    $_SESSION['categorias'] = [
+        $electronica->getId() => $electronica,
+        $celulares->getId() => $celulares,
+        $computadoras->getId() => $computadoras,
+        $laptops->getId() => $laptops,
+        $desktop->getId() => $desktop,
+        $audio->getId() => $audio,
+        $ropa->getId() => $ropa,
+        $hombre->getId() => $hombre,
+        $mujer->getId() => $mujer,
+        $hogar->getId() => $hogar,
+        $cocina->getId() => $cocina,
+        $decoracion->getId() => $decoracion
+    ];
 }
 
-// 3️⃣ Productos
+/* =========================
+   PRODUCTOS (10)
+========================= */
 if (!isset($_SESSION['productos'])) {
     $_SESSION['productos'] = [];
     $_SESSION['ultimo_id_prod'] = 0;
 
-    $prod1 = new Producto(++$_SESSION['ultimo_id_prod'], "Laptop Gamer", "Laptop potente para videojuegos", 1500, $_SESSION['categorias'][2], $_SESSION['proveedores'][1], date('Y-m-d'), true);
-    $prod2 = new Producto(++$_SESSION['ultimo_id_prod'], "Smartphone X", "Teléfono con cámara de alta resolución", 800, $_SESSION['categorias'][3], $_SESSION['proveedores'][2], date('Y-m-d'), true);
-    $prod3 = new Producto(++$_SESSION['ultimo_id_prod'], "Sofá 3 plazas", "Sofá cómodo para living", 500, $_SESSION['categorias'][5], $_SESSION['proveedores'][1], date('Y-m-d'), true);
-    $prod4 = new Producto(++$_SESSION['ultimo_id_prod'], "Mouse inalámbrico", "Mouse para oficina y gaming", 40, $_SESSION['categorias'][2], $_SESSION['proveedores'][2], date('Y-m-d'), true);
-
-    $_SESSION['productos'] = [
-        $prod1->getId() => $prod1,
-        $prod2->getId() => $prod2,
-        $prod3->getId() => $prod3,
-        $prod4->getId() => $prod4
+    $productos = [
+        new Producto(++$_SESSION['ultimo_id_prod'], "Laptop Gamer", "RTX 3060", 1500, $laptops, $p1, date('Y-m-d'), true),
+        new Producto(++$_SESSION['ultimo_id_prod'], "PC Oficina", "Uso administrativo", 800, $desktop, $p1, date('Y-m-d'), true),
+        new Producto(++$_SESSION['ultimo_id_prod'], "iPhone 13", "Smartphone Apple", 1200, $celulares, $p3, date('Y-m-d'), true),
+        new Producto(++$_SESSION['ultimo_id_prod'], "Auriculares Bluetooth", "Audio inalámbrico", 150, $audio, $p3, date('Y-m-d'), true),
+        new Producto(++$_SESSION['ultimo_id_prod'], "Remera Hombre", "Algodón", 25, $hombre, $p2, date('Y-m-d'), true),
+        new Producto(++$_SESSION['ultimo_id_prod'], "Vestido Mujer", "Vestido verano", 60, $mujer, $p2, date('Y-m-d'), true),
+        new Producto(++$_SESSION['ultimo_id_prod'], "Sartén", "Antiadherente", 40, $cocina, $p2, date('Y-m-d'), true),
+        new Producto(++$_SESSION['ultimo_id_prod'], "Mesa comedor", "Madera", 300, $decoracion, $p2, date('Y-m-d'), true),
+        new Producto(++$_SESSION['ultimo_id_prod'], "Parlante", "Parlante portátil", 200, $audio, $p3, date('Y-m-d'), true),
+        new Producto(++$_SESSION['ultimo_id_prod'], "Notebook Básica", "Estudiante", 600, $laptops, $p1, date('Y-m-d'), true),
     ];
+
+    foreach ($productos as $prod) {
+        $_SESSION['productos'][$prod->getId()] = $prod;
+    }
 }
 
-// 4️⃣ Pedidos
-if (!isset($_SESSION['pedidos'])) {
-    $_SESSION['pedidos'] = [];
-    $_SESSION['ultimo_id_ped'] = 0;
-    $_SESSION['ultimo_id_detalle'] = 0;
-
-    // $pedido1 = new Pedido(++$_SESSION['ultimo_id_ped']);
-    // $pedido2 = new Pedido(++$_SESSION['ultimo_id_ped']);
-    // $pedido3 = new Pedido(++$_SESSION['ultimo_id_ped']);
-
-    // $d1 = new DetallePedido(++$_SESSION['ultimo_id_detalle'], $_SESSION['productos'][1], 2, $_SESSION['productos'][1]->getPrecio());
-    // $d2 = new DetallePedido(++$_SESSION['ultimo_id_detalle'], $_SESSION['productos'][2], 1, $_SESSION['productos'][2]->getPrecio());
-    // $d3 = new DetallePedido(++$_SESSION['ultimo_id_detalle'], $_SESSION['productos'][3], 5, $_SESSION['productos'][3]->getPrecio());
-
-    $pedido1->agregarDetalle($d1);
-    $pedido1->agregarDetalle($d2);
-    $pedido2->agregarDetalle($d3);
-
-    $pedido3->entregarPedido();
-
-    $_SESSION['pedidos'] = [
-        $pedido1->getId() => $pedido1,
-        $pedido2->getId() => $pedido2,
-        $pedido3->getId() => $pedido3
-    ];
-}
-
-// 5️⃣ Stock
+/* =========================
+   STOCK
+========================= */
 if (!isset($_SESSION['stock'])) {
     $_SESSION['stock'] = [];
     $_SESSION['ultimo_id_stock'] = 0;
 
-    // Crear ejemplos de stock (asegúrate de tener productos creados antes)
-    $s1 = new Stock(++$_SESSION['ultimo_id_stock'], $_SESSION['productos'][1], 50, "Depósito Central", date('Y-m-d'), 10);
-    $s2 = new Stock(++$_SESSION['ultimo_id_stock'], $_SESSION['productos'][2], 30, "Sucursal Montevideo", date('Y-m-d'), 5);
-    $s3 = new Stock(++$_SESSION['ultimo_id_stock'], $_SESSION['productos'][3], 15, "Sucursal Colonia", date('Y-m-d'), 3);
-    $s4 = new Stock(++$_SESSION['ultimo_id_stock'], $_SESSION['productos'][4], 100, "Depósito Secundario", date('Y-m-d'), 20);
+    foreach ($_SESSION['productos'] as $producto) {
+        $stock = new Stock(
+            ++$_SESSION['ultimo_id_stock'],
+            $producto,
+            rand(5, 100),
+            "Depósito Central",
+            date('Y-m-d'),
+            rand(5, 15)
+        );
+        $_SESSION['stock'][$stock->getId()] = $stock;
+    }
+}
 
-    $_SESSION['stock'] = [
-        $s1->getId() => $s1,
-        $s2->getId() => $s2,
-        $s3->getId() => $s3,
-        $s4->getId() => $s4
+/* =========================
+   PEDIDOS (2)
+========================= */
+if (!isset($_SESSION['pedidos'])) {
+    $_SESSION['pedidos'] = [];
+    $_SESSION['ultimo_id_pedido'] = 0;
+
+    $pedido1 = new Pedido(++$_SESSION['ultimo_id_ped'], date('Y-m-d'), $p1, "pendiente");
+    $pedido2 = new Pedido(++$_SESSION['ultimo_id_ped'], date('Y-m-d'), $p2, "recibido");
+
+    $pedido1->agregarDetalle(new DetallePedido(1, $pedido1, $_SESSION['productos'][1], 2, 1500));
+    $pedido1->agregarDetalle(new DetallePedido(2, $pedido1, $_SESSION['productos'][4], 3, 150));
+
+    $pedido2->agregarDetalle(new DetallePedido(3, $pedido2, $_SESSION['productos'][5], 5, 25));
+
+    $_SESSION['pedidos'] = [
+        $pedido1->getId() => $pedido1,
+        $pedido2->getId() => $pedido2
     ];
 }

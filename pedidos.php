@@ -13,6 +13,7 @@ $pedidoEditar = null;
 
 // ================== ACCIONES POST ==================
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
     if (isset($_POST['accion']) && $_POST['accion'] === 'crear') {
         $resultado = PedidoController::crearPed(
             trim($_POST['fechaPedido']),
@@ -38,13 +39,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $tipoMensaje = $resultado['tipo'];
     }
 
-
-    if (isset($_POST['accion']) && $_POST['accion'] === 'agregarDetalles') {
+    // 👉 ESTE ES EL QUE TE FALTABA
+    if (isset($_POST['accion']) && $_POST['accion'] === 'agregarDetalle') {
         $controller = new PedidoController();
-        $controller->agregarDetalles();
+        $controller->agregarDetalle();
         exit;
     }
+
+    // // (opcional, para múltiples detalles)
+    // if (isset($_POST['accion']) && $_POST['accion'] === 'agregarDetalles') {
+    //     $controller = new PedidoController();
+    //     $controller->agregarDetalles();
+    //     exit;
+    // }
 }
+
 
 // ================== EDITAR PEDIDO ==================
 if (isset($_GET['editar'])) {

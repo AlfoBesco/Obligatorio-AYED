@@ -1,9 +1,6 @@
 <?php
-require_once '../../includes/sesion.php';
-require_once '../../includes/header.php';
-require_once '../../controladores/ProveedorController.php';
-require_once '../../controladores/ProductoController.php';
-
+require_once 'controladores/ProveedorController.php';
+require_once 'controladores/ProductoController.php';
 
 // Obtener lista de proveedores
 $proveedores = ProveedorController::listarTodosProv();
@@ -42,10 +39,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['proveedor'])) {
         </div>
     </form>
 
-
     <?php if ($proveedorSeleccionado): ?>
-        <h3>Proveedor: <?= htmlspecialchars($proveedorSeleccionado->getNombreEmpresa()); ?></h3>
-
+        <p><strong>Cantidad de productos:</strong> <?= count($productos); ?></p>
         <?php if (empty($productos)): ?>
             <div class="alert alert-warning">
                 Este proveedor no tiene productos registrados.
@@ -57,7 +52,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['proveedor'])) {
                         <th>ID</th>
                         <th>Nombre</th>
                         <th>Precio</th>
-                        <th>Stock</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -66,7 +60,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['proveedor'])) {
                             <td><?= $producto->getId(); ?></td>
                             <td><?= htmlspecialchars($producto->getNombre()); ?></td>
                             <td><?= number_format($producto->getPrecio(), 2, ',', '.'); ?></td>
-                            <td><?= $producto->getStock(); ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
@@ -74,4 +67,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['proveedor'])) {
         <?php endif; ?>
     <?php endif; ?>
 </div>
-<?php require_once '../../includes/footer.php'; ?>

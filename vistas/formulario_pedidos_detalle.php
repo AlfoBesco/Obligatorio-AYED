@@ -3,7 +3,7 @@
         <h2>Agregar Detalle al Pedido #<?= htmlspecialchars($pedidoEditar->getId()); ?></h2>
 
         <form method="POST" action="pedidos.php">
-            <input type="hidden" name="accion" value="agregarDetalle">
+            <input type="hidden" name="accion" value="agregarDetalles">
             <input type="hidden" name="pedidoId" value="<?= $pedidoEditar->getId(); ?>">
 
             <div class="form-group">
