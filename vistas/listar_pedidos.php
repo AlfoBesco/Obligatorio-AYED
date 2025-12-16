@@ -21,7 +21,7 @@
                     <tr>
                         <td>#<?= $pedido->getId(); ?></td>
                         <td><?= htmlspecialchars($pedido->getFechaPedido()); ?></td>
-                        <td><?= htmlspecialchars($pedido->getProveedor()); ?></td>
+                        <td><?= htmlspecialchars($pedido->getProveedor()->getNombreEmpresa()); ?></td>
                         <td><?= htmlspecialchars($pedido->getEstado()); ?></td>
                         <td><?= number_format($pedido->getTotal(), 2, ',', '.'); ?></td>
                         <td>
