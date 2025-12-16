@@ -15,7 +15,6 @@ if (isset($_POST['cerrarSesion'])) {
 $mensaje = "";
 $tipoMensaje = "";
 
-// ========== PROCESAR ACCIONES ==========
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // CREAR CATEGORIA
@@ -52,13 +51,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// ========== OBTENER CATEGORIA PARA EDITAR ==========
 $categoriaEditar = null;
 if (isset($_GET['editar'])) {
     $categoriaEditar = CategoriaController::buscarCatPorId(intval($_GET['editar']));
 }
 
-// ========== INCLUIR VISTAS ==========
 $titulo = "Gestión de Categorias";
 $paginaActual = "categorias";
 include 'includes/header.php';

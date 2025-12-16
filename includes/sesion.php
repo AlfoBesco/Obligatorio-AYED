@@ -9,9 +9,6 @@ require_once __DIR__ . '/../clases/Stock.php';
 
 session_start();
 
-/* =========================
-   PROVEEDORES (3)
-========================= */
 if (!isset($_SESSION['proveedores'])) {
     $_SESSION['proveedores'] = [];
     $_SESSION['ultimo_id_prov'] = 0;
@@ -27,9 +24,6 @@ if (!isset($_SESSION['proveedores'])) {
     ];
 }
 
-/* =========================
-   CATEGORÍAS (ÁRBOL)
-========================= */
 if (!isset($_SESSION['categorias'])) {
     $_SESSION['categorias'] = [];
     $_SESSION['ultimo_id_cat'] = 0;
@@ -78,9 +72,6 @@ if (!isset($_SESSION['categorias'])) {
     ];
 }
 
-/* =========================
-   PRODUCTOS (10)
-========================= */
 if (!isset($_SESSION['productos'])) {
     $_SESSION['productos'] = [];
     $_SESSION['ultimo_id_prod'] = 0;
@@ -103,9 +94,6 @@ if (!isset($_SESSION['productos'])) {
     }
 }
 
-/* =========================
-   STOCK
-========================= */
 if (!isset($_SESSION['stock'])) {
     $_SESSION['stock'] = [];
     $_SESSION['ultimo_id_stock'] = 0;
@@ -123,9 +111,6 @@ if (!isset($_SESSION['stock'])) {
     }
 }
 
-/* =========================
-   PEDIDOS (2)
-========================= */
 if (!isset($_SESSION['pedidos'])) {
     $_SESSION['pedidos'] = [];
     $_SESSION['ultimo_id_pedido'] = 0;

@@ -77,8 +77,6 @@ class StockController
         return ['mensaje' => 'Cantidad actualizada exitosamente', 'tipo' => 'success'];
     }
 
-
-
     public static function descontarStock($productoId, $cantidadSolicitada)
     {
         $stockItems = self::listarTodosStock();

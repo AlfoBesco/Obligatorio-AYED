@@ -1,8 +1,8 @@
 <?php
 // Este archivo muestra la tabla de stock
-$stockList = StockController::listarTodosStock(); // Usamos un nombre distinto para evitar colisiones
+$stockList = StockController::listarTodosStock();
 if (!is_array($stockList)) {
-    $stockList = []; // Garantizamos que sea un array
+    $stockList = [];
 }
 ?>
 
@@ -58,7 +58,6 @@ if (!is_array($stockList)) {
             </table>
         </div>
 
-        <!-- Valor total del inventario -->
         <?php
         $total = 0;
         foreach ($stockList as $item) {

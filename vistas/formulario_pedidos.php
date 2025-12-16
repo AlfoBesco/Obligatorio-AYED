@@ -3,7 +3,6 @@
 $pedidoEditar = isset($pedidoEditar) ? $pedidoEditar : null;
 ?>
 
-
 <div class="form-section">
     <h2><?= $pedidoEditar ? 'Editar Pedido' : 'Crear Pedido'; ?></h2>
     <form method="POST" action="pedidos.php">

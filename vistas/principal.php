@@ -7,7 +7,6 @@
         <div class="feature-card">
             <img src="https://3313137.fs1.hubspotusercontent-na1.net/hub/3313137/hubfs/Changes-in-digital-commerce-policy-mooted2.jpg?width=676&name=Changes-in-digital-commerce-policy-mooted2.jpg">
 
-            <!-- ================= ÁRBOL DE CATEGORÍAS ================= -->
             <div class="arbol-categorias">
                 <h3>Árbol de Categorías</h3>
 

@@ -9,7 +9,7 @@ require_once 'controladores/CategoriaController.php';
 // Manejar cierre de sesión
 if (isset($_POST['cerrarSesion'])) {
     session_destroy();
-    header("Location: index.php"); // o la página de inicio
+    header("Location: index.php");
     exit;
 }
 
@@ -17,7 +17,6 @@ if (isset($_POST['cerrarSesion'])) {
 $mensaje = "";
 $tipoMensaje = "";
 
-// ========== PROCESAR ACCIONES ==========
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     // CREAR PRODUCTO
@@ -62,13 +61,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// ========== OBTENER PRODUCTO PARA EDITAR ==========
 $productoEditar = null;
 if (isset($_GET['editar'])) {
     $productoEditar = ProductoController::buscarProdPorId(intval($_GET['editar']));
 }
 
-// ========== INCLUIR VISTAS ==========
 $titulo = "Gestión de Productos";
 $paginaActual = "productos";
 include 'includes/header.php';

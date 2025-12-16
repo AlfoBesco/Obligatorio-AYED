@@ -7,7 +7,7 @@ require_once 'controladores/ProveedorController.php';
 // Manejar cierre de sesión
 if (isset($_POST['cerrarSesion'])) {
     session_destroy();
-    header("Location: index.php"); // o la página de inicio
+    header("Location: index.php");
     exit;
 }
 
@@ -15,7 +15,6 @@ if (isset($_POST['cerrarSesion'])) {
 $mensaje = "";
 $tipoMensaje = "";
 
-// ========== PROCESAR ACCIONES ==========
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     // CREAR PROVEEDOR
@@ -56,13 +55,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// ========== OBTENER PROVEEDOR PARA EDITAR ==========
 $proveedorEditar = null;
 if (isset($_GET['editar'])) {
     $proveedorEditar = ProveedorController::buscarProvPorId(intval($_GET['editar']));
 }
 
-// ========== INCLUIR VISTAS ==========
 $titulo = "Gestión de Proveedores";
 $paginaActual = "proveedors";
 include 'includes/header.php';

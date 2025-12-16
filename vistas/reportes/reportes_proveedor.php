@@ -9,7 +9,6 @@ $proveedores = ProveedorController::listarTodosProv();
 $productos = [];
 $proveedorSeleccionado = null;
 
-// Si se envió el formulario
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['proveedor'])) {
     $idProveedor = intval($_POST['proveedor']);
     $proveedorSeleccionado = ProveedorController::buscarPorId($idProveedor);

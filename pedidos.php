@@ -11,7 +11,6 @@ $mensaje = "";
 $tipoMensaje = "";
 $pedidoEditar = null;
 
-// ================== ACCIONES POST ==================
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (isset($_POST['accion']) && $_POST['accion'] === 'crear') {
@@ -45,22 +44,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $controller->agregarDetalle();
         exit;
     }
-
-    // // (opcional, para múltiples detalles)
-    // if (isset($_POST['accion']) && $_POST['accion'] === 'agregarDetalles') {
-    //     $controller = new PedidoController();
-    //     $controller->agregarDetalles();
-    //     exit;
-    // }
 }
 
 
-// ================== EDITAR PEDIDO ==================
 if (isset($_GET['editar'])) {
     $pedidoEditar = PedidoController::buscarPedidoPorId(intval($_GET['editar']));
 }
 
-// ================== VISTA ==================
 $titulo = "Gestión de Pedidos";
 $paginaActual = "pedidos";
 include 'includes/header.php';

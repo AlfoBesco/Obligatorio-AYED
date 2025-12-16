@@ -9,7 +9,6 @@ require_once 'controladores/ProductoController.php';
 $mensaje = "";
 $tipoMensaje = "";
 
-// ========== PROCESAR ACCIONES ==========
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // CREAR STOCK
@@ -34,14 +33,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// ========== OBTENER STOCK PARA EDITAR ==========
 $stockEditar = null;
 if (isset($_GET['editar'])) {
     $stockEditar = StockController::buscarPorId(intval($_GET['editar']));
 }
 
-
-// ========== INCLUIR VISTAS ==========
 $titulo = "Gestión de Stock";
 $paginaActual = "stock";
 include 'includes/header.php';

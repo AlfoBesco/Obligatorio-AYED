@@ -1,11 +1,9 @@
 <?php
 require_once 'includes/sesion.php';
-// Si no hay sesión iniciada, iniciarla
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Determinar página actual
 $paginaActual = isset($paginaActual) ? $paginaActual : 'inicio';
 ?>
 <!DOCTYPE html>

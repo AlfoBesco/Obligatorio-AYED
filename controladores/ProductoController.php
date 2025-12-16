@@ -17,7 +17,6 @@ class ProductoController
     {
         self::inicializar();
 
-        // Convertir activo a boolean
         $activo = filter_var($activo, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
 
         if (
@@ -241,7 +240,6 @@ class ProductoController
     public static function cambiarCategoria($id, $nuevaCategoriaId)
     {
 
-        // existe el producto?
         if (!isset($_SESSION['productos'][$id])) {
             return [
                 'exito' => false,
@@ -252,7 +250,6 @@ class ProductoController
 
         $producto = $_SESSION['productos'][$id];
 
-        // existe la nueva categoría?
         $nuevaCategoria = CategoriaController::buscarCatPorId($nuevaCategoriaId);
         if (!$nuevaCategoria) {
             return [

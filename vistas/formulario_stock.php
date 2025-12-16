@@ -3,7 +3,6 @@
 $stockEditar = isset($stockEditar) ? $stockEditar : null;
 ?>
 
-
 <div class="form-section">
     <h2><?= $stockEditar ? 'Editar Stock' : 'Agregar Nuevo Stock'; ?></h2>
 
@@ -11,7 +10,6 @@ $stockEditar = isset($stockEditar) ? $stockEditar : null;
         <input type="hidden" name="accion" value="<?= $stockEditar ? 'actualizar' : 'crear'; ?>">
 
         <?php if ($stockEditar): ?>
-            <!-- Modo edición: solo cantidad -->
             <input type="hidden" name="id" value="<?= $stockEditar->getId(); ?>">
             <div class="form-group">
                 <label for="cantidad">Cantidad *</label>
@@ -19,7 +17,6 @@ $stockEditar = isset($stockEditar) ? $stockEditar : null;
                     value="<?= htmlspecialchars($stockEditar->getCantidad()); ?>" required>
             </div>
         <?php else: ?>
-            <!-- Modo creación: todos los campos -->
             <div class="form-row">
                 <div class="form-group">
                     <label for="producto">Producto *</label>
