@@ -26,7 +26,7 @@
                         <td><?= number_format($pedido->getTotal(), 2, ',', '.'); ?></td>
                         <td>
                             <a href="pedidos.php?editar=<?= $pedido->getId(); ?>" class="btn btn-warning btn-sm">Agregar Detalle</a>
-                            <a href="pedidos.php?editar=<?= $pedido->getId(); ?>" class="btn btn-warning btn-sm">Modificar</a>
+                            <a href="pedidos.php?editar=<?= $pedido->getId(); ?>" class="btn btn-warning btn-sm">Editar</a>
                             <form method="POST" style="display:inline;">
                                 <input type="hidden" name="accion" value="eliminar">
                                 <input type="hidden" name="id" value="<?= $pedido->getId(); ?>">
