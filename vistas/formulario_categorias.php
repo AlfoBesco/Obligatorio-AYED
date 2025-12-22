@@ -36,13 +36,12 @@ $categoriaEditar = isset($categoriaEditar) ? $categoriaEditar : null;
                 <select id="categoriaPadre" name="categoriaPadre">
                     <option value="">-- Ninguna (categoría raíz) --</option>
                     <?php foreach ($_SESSION['categorias'] as $cat): ?>
-                        <?php if ($cat->getCategoriaPadre() === null): // solo categorías raíz 
-                        ?>
+                        
                             <option value="<?= $cat->getId(); ?>"
                                 <?= ($categoriaEditar && $categoriaEditar->getCategoriaPadre() && $categoriaEditar->getCategoriaPadre()->getId() == $cat->getId()) ? 'selected' : '' ?>>
                                 <?= htmlspecialchars($cat->getNombre()); ?>
                             </option>
-                        <?php endif; ?>
+                        
                     <?php endforeach; ?>
                 </select>
             </div>
